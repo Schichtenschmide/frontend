@@ -6,7 +6,7 @@ class RolesContainer extends Component {
 
 		const element = (
 			<div>
-				<h1>Roles</h1>
+				<h1>Rollen</h1>
 				<h1>Rollen Tabelle</h1>
 				<button>Rolle hinzufügen</button>
 			</div>

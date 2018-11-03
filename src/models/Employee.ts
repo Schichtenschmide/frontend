@@ -1,5 +1,3 @@
 export class Employee{
-    name:string;
-
-
+    name: string | undefined;
 }

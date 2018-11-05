@@ -1,24 +1,54 @@
 import React, { Component } from 'react';
-import './RolesContainer.css';
-import RolesTable from "../roles-table/RolesTable";
-//import {Roles} from "../../models/Roles";
-
-class RolesContainer extends Component {
 
 
-    render() {
+class RolesCreate extends Component {
+	constructor(props){
+		super(props);
+
+		this.state = {
+			roleName: ''
+		};
+
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleInputChange(event) {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
+
+		this.setState({
+			[name]: value
+		});
+	}
+
+	handleSubmit(event) {
+		//TODO addRole
+		console.log(this.state.roleName);
+		alert("A name was submitted: " + this.state.roleName);
+		event.preventDefault();
+	}
+
+
+	render() {
 		return (
-			<div>
-				<h1>Rollen</h1>
-				<RolesTable/>
-				<br/>
-				<input type="button" value="Rolle hinzufügen"/>
-			</div>
-    	);
-    }
+				<form>
+					<label>
+						Rollenname<br/>
+						<input
+							name={'roleName'}
+							type="text"
+							value={this.state.roleName}
+							onChange={this.handleInputChange} />
+					</label>
+					<input type="submit" value="Rolle hinzufügen" />
+				</form>
+		);
+	}
 }
 
-export default RolesContainer;
+export default RolesCreate;
 
 /*
 constructor(props) {

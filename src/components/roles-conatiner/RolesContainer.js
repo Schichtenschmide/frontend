@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './RolesContainer.css';
 import RolesTable from "../roles-table/RolesTable";
-import {Roles} from "../../models/Roles";
+//import {Roles} from "../../models/Roles";
 
 class RolesContainer extends Component {
 	constructor(props){
@@ -26,7 +26,8 @@ class RolesContainer extends Component {
 	}
 
 	handleSubmit(event) {
-
+		//TODO addRole
+		console.log(this.state.roleName);
 		alert("A name was submitted: " + this.state.roleName);
 		event.preventDefault();
 	}
@@ -37,11 +38,12 @@ class RolesContainer extends Component {
 			<div>
 				<h1>Rollen</h1>
 				<RolesTable/>
+				<br/>
 				<form>
 					<label>
 						Rollenname<br/>
 						<input
-							name="roleName"
+							name={'roleName'}
 							type="text"
 							value={this.state.roleName}
 							onChange={this.handleInputChange} />

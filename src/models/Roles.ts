@@ -1,11 +1,20 @@
-export class Roles{
-    _currentRoles: string[] = ["Koch", "Service"];
+export interface RolesModel{
+    roleList: string[];
+    addRole : (roleName : string) => void;
+    removeRole : (roleName : string) => void;
+}
 
-    get currentRoles(): string[] {
-        return this._currentRoles;
+export class Roles implements  RolesModel {
+    public roleList: string[] = ["Koch" , "Service"];
+
+    public addRole(roleName: string) {
+        //TODO implement addRole in DB
+        this.roleList.push(roleName);
     }
 
-    set name(value: string) {
-        this._currentRoles.push(value);
+    public removeRole(roleName : string){
+        //TODO  implement removeRole in DB
+        this.roleList.splice(this.roleList.indexOf(roleName),1);
     }
 }
+

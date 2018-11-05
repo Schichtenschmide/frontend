@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Roles} from "../../models/Roles";
+import {RoleModel} from "../../models/DefaultRoleModel";
 import "./RolesTable.css"
 
 
@@ -9,10 +9,9 @@ class RolesTable extends Component {
 	render() {
 
 		function RolesList(props) {
-			const roles = props.roles;
-			let i = 0;
+			const roles = props.roles; 
 			const listItems = roles.map((role) =>
-				<tr><td key={i++}>{role}</td></tr>
+				<tr><td key={role.indexOf(role)}>{role}</td></tr>
 			);
 			return (
 				<table>
@@ -22,10 +21,8 @@ class RolesTable extends Component {
 			);
 		}
 
-		const theRoles = new Roles();
-
 		const element = (
-			<RolesList roles={theRoles.roleList}/>
+			<RolesList roles={RoleModel.roleList}/>
 		);
 
 		return (

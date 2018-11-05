@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import {RoleModel} from "../../models/DefaultRoleModel";
 
 
 class RolesCreate extends Component {
-	constructor(props){
+	constructor(props) {
 		super(props);
 
 		this.state = {
 			roleName: ''
 		};
-
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -25,25 +25,26 @@ class RolesCreate extends Component {
 
 	handleSubmit(event) {
 		//TODO addRole
+		RoleModel.addRole(this.state.roleName);
 		console.log(this.state.roleName);
-		alert("A name was submitted: " + this.state.roleName);
+		//alert("A name was submitted: " + this.state.roleName);
 		event.preventDefault();
 	}
 
 
 	render() {
 		return (
-				<form>
-					<label>
-						Rollenname<br/>
-						<input
-							name={'roleName'}
-							type="text"
-							value={this.state.roleName}
-							onChange={this.handleInputChange} />
-					</label>
-					<input type="submit" value="Rolle hinzufügen" />
-				</form>
+			<form onSubmit={this.handleSubmit}>
+				<label>
+					Rollenname<br/>
+					<input
+						name={'roleName'}
+						type="text"
+						value={this.state.roleName}
+						onChange={this.handleInputChange}/>
+				</label>
+				<input type="submit" value="Rolle hinzufügen"/>
+			</form>
 		);
 	}
 }

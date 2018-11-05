@@ -1,15 +1,16 @@
-export interface RolesModel{
+export interface IRoleModel{
     roleList: string[];
     addRole : (roleName : string) => void;
     removeRole : (roleName : string) => void;
 }
 
-export class Roles implements  RolesModel {
-    public roleList: string[] = ["Koch" , "Service"];
+export class DefaultRoleModel implements  IRoleModel {
+    roleList: string[] = ["Koch" , "Service"];
 
     public addRole(roleName: string) {
         //TODO implement addRole in DB
         this.roleList.push(roleName);
+        alert("Hello from addRole " + roleName);
     }
 
     public removeRole(roleName : string){
@@ -18,3 +19,4 @@ export class Roles implements  RolesModel {
     }
 }
 
+export const RoleModel = new DefaultRoleModel();

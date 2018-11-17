@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {RoleModel} from "../../models/DefaultRoleModel";
+import {RoleModel} from "../../../models/DefaultRoleModel";
 import "./RolesTable.css"
 import axios from 'axios';
 

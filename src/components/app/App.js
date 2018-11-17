@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import './App.css';
-import RolesContainer from "../roles-conatiner/RolesContainer";
+import RolesContainer from "../roles/roles-conatiner/RolesContainer";
 import NavigationBar from "../navigation-bar/NavigationBar";
 import Footer from "../footer/Footer";
-import EmployeeContainer from "../employee-container/EmployeeContainer";
+import EmployeeContainer from "../employee/employee-container/EmployeeContainer";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
-import ShiftPlanContainer from "../shiftplan-container/shiftPlanContainer";
-import ShiftContainer from "../shift-container/ShiftContainer";
+import ShiftPlanContainer from "../shiftplan/shiftplan-container/shiftPlanContainer";
+import ShiftContainer from "../shift/shift-container/ShiftContainer";
 
 class App extends Component {
 	render() {

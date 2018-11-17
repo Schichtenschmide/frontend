@@ -6,7 +6,7 @@ class ShiftPlanCreate extends Component{
 	render() {
 		return (
 			<div>
-				<h1>Schichtenplan erstellen</h1>
+				<button type="button" className="btn btn-primary">Schichtenplan erstellen</button>
 			</div>
 		);
 	}

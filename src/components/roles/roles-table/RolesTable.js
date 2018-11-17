@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {RoleModel} from "../../../models/DefaultRoleModel";
-import "./RolesTable.css"
 import axios from 'axios';
 
 
@@ -26,6 +25,8 @@ class RolesTable extends Component {
 			const listItems = roles.map((role) =>
 				<tr>
 					<td key={role.indexOf(role)}>{role}</td>
+					<td><span className="glyphicon glyphicon-pencil">bearbeiten</span></td>
+					<td><span className="glyphicon glyphicon-trash">löschen</span></td>
 				</tr>
 			);
 			return (
@@ -34,6 +35,8 @@ class RolesTable extends Component {
 					<thead className="thead-light">
 					<tr>
 						<th scope="col">Rolle</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
 					</tr>
 					</thead>
 					<tbody>

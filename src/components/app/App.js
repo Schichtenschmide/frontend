@@ -11,32 +11,15 @@ class App extends Component {
 	render() {
 		return (
 			<span>
-			<NavigationBar/>
+				<div id="logo">Logo</div>
+				<NavigationBar/>
 				<Switch>
 					<Route exact path='/' component={EmployeeContainer}/>
 					<Route path='/employee' component={EmployeeContainer}/>
 					<Route path='/roles' component={RolesContainer}/>
 				</Switch>
-					<Footer/>
+				<Footer/>
 			</span>
-			/*
-			<!--
-				<div id="mainBody">
-					<div id="logo">
-						Logo
-					</div>
-
-					<div id="content">
-
-
-
-
-
-					</div>
-
-
-				</div>
-			-->*/
 		);
 	}
 }

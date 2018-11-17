@@ -43,7 +43,7 @@ class RolesCreate extends Component {
 						value={this.state.roleName}
 						onChange={this.handleInputChange}/>
 				</label>
-				<input type="submit" value="Rolle hinzufügen"/>
+				<input className="btn btn-primary" type="submit" value="Rolle hinzufügen"/>
 			</form>
 		);
 	}

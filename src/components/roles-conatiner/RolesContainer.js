@@ -12,7 +12,7 @@ class RolesContainer extends Component {
 				<h1>Rollen</h1>
 				<RolesTable/>
 				<br/>
-				<input type="button" value="Rolle hinzufügen"/>
+				<button className="btn btn-primary"> Rolle hinzufügen</button>
 				<hr/>
 				<div>'RolesCreate'</div>
 				<RolesCreate/>

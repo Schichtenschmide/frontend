@@ -11,10 +11,6 @@ class RolesContainer extends Component {
 			<div>
 				<h1>Rollen</h1>
 				<RolesTable/>
-				<br/>
-				<button className="btn btn-primary"> Rolle hinzufügen</button>
-				<hr/>
-				<div>'RolesCreate'</div>
 				<RolesCreate/>
 			</div>
 		);

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {RoleModel} from "../../models/DefaultRoleModel";
 import "./RolesTable.css"
+import axios from 'axios';
 
 
 class RolesTable extends Component {
@@ -8,25 +9,49 @@ class RolesTable extends Component {
 
 	render() {
 
+		function getStarWarsAPI() {
+			return axios.get('https://swapi.co/api/people/1')
+				.then(function (response) {
+					// handle success
+					console.log(response);
+				})
+				.catch(function (error) {
+					// handle error
+					console.log(error);
+				});
+		}
+
 		function RolesList(props) {
 			const roles = props.roles;
 			const listItems = roles.map((role) =>
-				<tr><td key={role.indexOf(role)}>{role}</td></tr>
+				<tr>
+					<td key={role.indexOf(role)}>{role}</td>
+				</tr>
 			);
 			return (
-				<table>
-					<thead><tr><td key={'#'}>Rolle</td></tr></thead>
-					<tbody>{listItems}</tbody>
+
+				<table className="table">
+					<thead className="thead-light">
+					<tr>
+						<th scope="col">Rolle</th>
+					</tr>
+					</thead>
+					<tbody>
+						{listItems}
+					</tbody>
 				</table>
 			);
 		}
 
 		const element = (
 			<RolesList roles={RoleModel.roleList}/>
+
 		);
 
 		return (
-			element
+
+			getStarWarsAPI(),
+				element
 		);
 	}
 }

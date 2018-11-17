@@ -1,5 +1,5 @@
 html{
-    background-color: lightblue;
+    background-color: #e3f2fd;
 }
 body{
     position: relative;
@@ -7,10 +7,12 @@ body{
     margin: 0 auto;
     padding: 10px;
     background-color: white;
+    border-radius: 5px;
 }
 
 #content{
     margin: 0 auto;
+    padding: 10px;
     min-width: 200px;
-    min-height: 220px;
+    min-height: 400px;
 }

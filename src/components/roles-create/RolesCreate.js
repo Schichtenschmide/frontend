@@ -27,72 +27,58 @@ class RolesCreate extends Component {
 		//TODO addRole
 		RoleModel.addRole(this.state.roleName);
 		console.log(this.state.roleName);
-		//alert("A name was submitted: " + this.state.roleName);
 		event.preventDefault();
 	}
 
-
 	render() {
 		return (
-			<form onSubmit={this.handleSubmit}>
-				<label>
-					Rollenname<br/>
-					<input
-						name={'roleName'}
-						type="text"
-						value={this.state.roleName}
-						onChange={this.handleInputChange}/>
-				</label>
-				<input className="btn btn-primary" type="submit" value="Rolle hinzufügen"/>
-			</form>
+			<div>
+				<button className="btn btn-primary" data-toggle="modal" data-target="#createUserDialog">
+					Rolle hinzufügen
+				</button>
+				<div className="modal fade" id="createUserDialog" tabIndex="-1" role="dialog"
+					 aria-labelledby="createUserDialogTitle" aria-hidden="true">
+					<div className="modal-dialog modal-dialog-centered" role="document">
+						<div className="modal-content">
+							<div className="modal-header">
+								<h5 className="modal-title" id="exampleModalLongTitle">Rolle hinzufügen</h5>
+								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div className="modal-body">
+								<form onSubmit={this.handleSubmit}>
+									<label>
+										Rollenname<br/>
+										<input
+											name={'roleName'}
+											type="text"
+											value={this.state.roleName}
+											onChange={this.handleInputChange}
+										/>
+									</label>
+									< div className="modal-footer">
+										<button type="button" onClick={this.handleSubmit}
+												className="btn btn-primary">
+											Speichern
+										</button>
+										<button type="button" onClick={this.handleSubmit}
+												className="btn btn-primary mr-1"
+												data-dismiss="modal">
+											Speichern und schliessen
+										</button>
+										< button type="button" className="btn btn-secondary" data-dismiss="modal">
+											Abbrechen
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		);
 	}
 }
 
 export default RolesCreate;
-
-/*
-constructor(props) {
-    super(props);
-    this.state = {
-      isGoing: true,
-      numberOfGuests: 2
-    };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
-
-  render() {
-    return (
-      <form>
-        <label>
-          Is going:
-          <input
-            name="isGoing"
-            type="checkbox"
-            checked={this.state.isGoing}
-            onChange={this.handleInputChange} />
-        </label>
-        <br />
-        <label>
-          Number of guests:
-          <input
-            name="numberOfGuests"
-            type="number"
-            value={this.state.numberOfGuests}
-            onChange={this.handleInputChange} />
-        </label>
-      </form>
-    );
-  }
-* */

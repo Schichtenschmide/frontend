@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './RolesContainer.css';
 import RolesTable from "../roles-table/RolesTable";
+import RolesCreate from "../roles-create/RolesCreate";
 
 
 class RolesContainer extends Component {
@@ -12,6 +13,9 @@ class RolesContainer extends Component {
 				<RolesTable/>
 				<br/>
 				<input type="button" value="Rolle hinzufügen"/>
+				<hr/>
+				<div>'RolesCreate'</div>
+				<RolesCreate/>
 			</div>
 		);
 	}

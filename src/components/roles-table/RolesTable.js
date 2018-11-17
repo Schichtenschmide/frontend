@@ -9,7 +9,7 @@ class RolesTable extends Component {
 	render() {
 
 		function RolesList(props) {
-			const roles = props.roles; 
+			const roles = props.roles;
 			const listItems = roles.map((role) =>
 				<tr><td key={role.indexOf(role)}>{role}</td></tr>
 			);

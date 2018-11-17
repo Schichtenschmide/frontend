@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './EmployeeContainer.css';
+import EmployeeCreateDialog from "../employee-create-dialog/EmployeeCreateDialog";
 
 class EmployeeContainer extends Component {
     render() {
@@ -10,6 +11,8 @@ class EmployeeContainer extends Component {
                     Lorem
                 </div>
                 <input type="button" value="+ Hinzufügen"/>
+				<div>'EmployeeCreateDialog'</div>
+				<EmployeeCreateDialog/>
             </div>
         );
     }

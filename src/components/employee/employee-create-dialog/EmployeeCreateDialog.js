@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './EmployeeCreateDialog.css';
+
 
 class EmployeeCreateDialog extends Component {
 
@@ -38,8 +38,6 @@ class EmployeeCreateDialog extends Component {
 
     render() {
         return (
-
-
 			<div>
 			<button className="btn btn-primary" data-toggle="modal" data-target="#createEmployeeDialog">
 			Mitarbeiter hinzufügen
@@ -62,19 +60,13 @@ class EmployeeCreateDialog extends Component {
 							<input name={'lastName'} type="text" id="lastName" value={this.state.lastName} onChange={this.handleInputChange} className="form-control"/>
                             <label htmlFor="employmentRate">Stellenprozenzsatz</label>
 							<input name={'employmentRate'} type="number" id="employmentRate" value={this.state.employmentRate} onChange={this.handleInputChange} className="form-control"/>
-
 							<input name={'isActive'} type="checkbox" id="isActive" value={this.state.isActive} onChange={this.handleInputChange}/>
 							<label htmlFor="isActive">Aktiver Mitarbeiter</label>
-
-
 							< div className="modal-footer">
-								<button type="button" onClick={this.handleSubmit}
-										className="btn btn-primary">
+								<button type="button" onClick={this.handleSubmit} className="btn btn-primary">
 									Speichern
 								</button>
-								<button type="button" onClick={this.handleSubmit}
-										className="btn btn-primary mr-1"
-										data-dismiss="modal">
+								<button type="button" onClick={this.handleSubmit} className="btn btn-primary mr-1" data-dismiss="modal">
 									Speichern und schliessen
 								</button>
 								< button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -94,69 +86,3 @@ class EmployeeCreateDialog extends Component {
 }
 
 export default EmployeeCreateDialog;
-
-
-/*
-
-
-
-import React, {Component} from 'react';
-import {RoleModel} from "../../../models/DefaultRoleModel";
-
-
-class RolesCreate extends Component {
-
-	render() {
-		return (
-			<div>
-				<button className="btn btn-primary" data-toggle="modal" data-target="#createUserDialog">
-					Rolle hinzufügen
-				</button>
-				<div className="modal fade" id="createUserDialog" tabIndex="-1" role="dialog"
-					 aria-labelledby="createUserDialogTitle" aria-hidden="true">
-					<div className="modal-dialog modal-dialog-centered" role="document">
-						<div className="modal-content">
-							<div className="modal-header">
-								<h5 className="modal-title" id="exampleModalLongTitle">Rolle hinzufügen</h5>
-								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div className="modal-body">
-								<form onSubmit={this.handleSubmit}>
-									<label>
-										Rollenname<br/>
-										<input
-											name={'roleName'}
-											type="text"
-											value={this.state.roleName}
-											onChange={this.handleInputChange}
-										/>
-									</label>
-									< div className="modal-footer">
-										<button type="button" onClick={this.handleSubmit}
-												className="btn btn-primary">
-											Speichern
-										</button>
-										<button type="button" onClick={this.handleSubmit}
-												className="btn btn-primary mr-1"
-												data-dismiss="modal">
-											Speichern und schliessen
-										</button>
-										< button type="button" className="btn btn-secondary" data-dismiss="modal">
-											Abbrechen
-										</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-}
-
-export default RolesCreate;
-
-* */

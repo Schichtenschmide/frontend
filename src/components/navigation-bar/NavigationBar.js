@@ -14,10 +14,10 @@ class NavigationBar extends Component {
 					</button>
 					<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
 					<ul className="navbar-nav">
-						<li class="nav-item"><Link class="nav-link" to="/shiftplan">Wochenplan</Link></li>
-						<li class="nav-item"><Link class="nav-link" to="/shift">Schichten</Link></li>
-						<li class="nav-item"><Link class="nav-link" to="/employee">Mitarbeiter</Link></li>
-						<li class="nav-item"><Link class="nav-link" to="/roles">Rollen</Link></li>
+						<li className="nav-item"><Link className="nav-link" to="/shiftplan">Wochenplan</Link></li>
+						<li className="nav-item"><Link className="nav-link" to="/shift">Schichten</Link></li>
+						<li className="nav-item"><Link className="nav-link" to="/employee">Mitarbeiter</Link></li>
+						<li className="nav-item"><Link className="nav-link" to="/roles">Rollen</Link></li>
 					</ul>
 					</div>
 				</nav>

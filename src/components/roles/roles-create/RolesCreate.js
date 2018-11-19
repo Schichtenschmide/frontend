@@ -24,7 +24,7 @@ class RolesCreate extends Component {
 	}
 
 	handleSubmit(event) {
-		//TODO addRole
+		//TODO addRole to DB
 		RoleModel.addRole(this.state.roleName);
 		console.log(this.state.roleName);
 		event.preventDefault();

@@ -54,29 +54,21 @@ class ShiftCreate extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<form onSubmit={this.handleSubmit}>
+								<form>
 									<label htmlFor="name">Name</label>
-
-									<input
-										name={'roleName'}
-										type="text"
-										value={this.state.roleName}
-										onChange={this.handleInputChange}
-									/>
-
 									<input name={'name'} type="text" id="name" value={this.state.name} onChange={this.handleInputChange} className="form-control"/>
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
-											<input name={'startTime'} type="time" value={this.state.startTime} onChange={this.handleInputChange} id="startTime" className="form-control"/>
+											<input name={'startTime'} type="time"  id="startTime" value={this.state.startTime} onChange={this.handleInputChange} className="form-control"/>
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
-											<input name={'endTime'} type="time" id="endTime" className="form-control"/>
+											<input name={'endTime'} type="time" id="endTime" value={this.state.endTime} onChange={this.handleInputChange} className="form-control"/>
 										</div>
 									</div>
 									<label htmlFor="shorthand">Shorthand</label>
-									<input type="text" id="shorthand" className="form-control"/>
+									<input name={'shorthand'} type="text" id="shorthand" value={this.state.shorthand} onChange={this.handleInputChange} className="form-control"/>
 
 									<div className="form-check">
 										<input className="form-check-input" type="checkbox" value="" id="monday"/>
@@ -121,10 +113,24 @@ class ShiftCreate extends Component {
 										</label>
 									</div>
 									<label htmlFor="employeeCount">Anzahl Mitarbeiter</label>
-									<input type="number" id="employeeCount" className="form-control"/>
-									<button type="submit" className="btn btn-primary">Hinzufügen</button>
+									<input name={'employeeCount'} type="number" id="employeeCount" value={this.state.employeeCount} onChange={this.handleInputChange} className="form-control"/>
+
+
+
+									< div className="modal-footer">
+										<button type="button" onClick={this.handleSubmit}
+												className="btn btn-primary">
+											Speichern
+										</button>
+										<button type="button" onClick={this.handleSubmit} className="btn btn-primary mr-1" data-dismiss="modal">
+											Speichern und schliessen
+										</button>
+										< button type="button" className="btn btn-secondary" data-dismiss="modal">
+											Abbrechen
+										</button>
+									</div>
 								</form>
-							</div>  
+							</div>
 						</div>
 					</div>
 				</div>

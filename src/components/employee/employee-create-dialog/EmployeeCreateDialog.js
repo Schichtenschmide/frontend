@@ -28,7 +28,7 @@ class EmployeeCreateDialog extends Component {
 	}
 
 	handleSubmit(event) {
-		//TODO addRole
+
 		console.log(this.state.firstName);
 		console.log(this.state.lastName);
 		console.log(this.state.employmentRate);

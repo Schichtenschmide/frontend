@@ -16,7 +16,7 @@ class App extends Component {
 				<NavigationBar/>
 				<div id="content">
 					<Switch>
-						<Route exact path='/' component={EmployeeContainer}/>
+						<Route exact path='/' component={ShiftPlanContainer}/>
 						<Route path='/shiftplan' component={ShiftPlanContainer}/>
 						<Route path='/shift' component={ShiftContainer}/>
 						<Route path='/employee' component={EmployeeContainer}/>

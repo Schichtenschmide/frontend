@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {RoleModel} from "../../../models/DefaultRoleModel";
+import axios from "axios";
+import {baseUrlForTheBackend} from "../../../constants";
 
 
 class RolesCreate extends Component {
@@ -25,6 +27,17 @@ class RolesCreate extends Component {
 
 	handleSubmit(event) {
 		//TODO addRole to DB
+		axios.post(baseUrlForTheBackend +'/roles', {
+			"name": this.state.roleName,
+			"isActive":"true"
+		})
+		.then(function (response) {
+			console.log(response);
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+
 		RoleModel.addRole(this.state.roleName);
 		console.log(this.state.roleName);
 		event.preventDefault();

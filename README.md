@@ -1,3 +1,8 @@
+# Frontend
+This is the frontend for the Schichtenschmiede project
+
+# Notes for NodeJS
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -43,3 +48,22 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
+# Deployment
+
+### Prepare push to Cloud Foundry
+
+Change the host
+Change the Host / URL that is defined in manifest.yml file according to you needs
+```
+ host: schichtenschmiede-juventus //becomes --> https://schichtenschmiede-juventus.scapp.io
+ ```
+ Change the baseUrlForTheBackend in src/constants.js to your production Backend URL
+```
+export const baseUrlForTheBackend = 'https://hello-world-jpa-ch-p.scapp.io';
+//export const baseUrlForTheBackend = 'http://localhost:8080';
+```
+### Push
+Login to Cloudfoundry --> <br/>
+`cf login -a api.lyra-836.appcloud.swisscom.com -u user@example.com -p MySecretPassword` <br/>
+chose you space --> <br/>
+`cf push`

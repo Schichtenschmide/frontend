@@ -53,7 +53,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ### Prepare push to Cloud Foundry
 
 Change the host
-Change the Host / URL that is defined in manifest.yml file according to you needs
+Change the Host / URL that is defined in manifest.yml file according to your needs
 ```
  host: schichtenschmiede-juventus //becomes --> https://schichtenschmiede-juventus.scapp.io
  ```

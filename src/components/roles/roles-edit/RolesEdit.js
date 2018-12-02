@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
+import $ from 'jquery';
 
 class RolesEdit extends Component {
+	roleId;
 
 	constructor(props) {
 		super(props);
@@ -31,16 +33,29 @@ class RolesEdit extends Component {
 	}
 
 
-	handleSubmit(event) {
+	handleSubmit(event, isSaveAndCloseEvent, roleID) {
 		//TODO addRole to DB
 		axios.put(baseUrlForTheBackend + '/roles/' + this.props.roleId, {
 			"name": this.state.roleName,
 		})
 			.then(function (response) {
+				console.log("then")
 				console.log(response);
+				$(".message").empty().text("saved");
+				if (isSaveAndCloseEvent)
+					$("#editRoleNameDialog" + roleID).modal('hide');
+
 			})
 			.catch(function (error) {
+				console.log("catch");
 				console.log(error);
+				if (isSaveAndCloseEvent) {
+					$(".message").empty().text("not saved save and close");
+				} else {
+					$(".message").text("not saved");
+				}
+
+
 			});
 		console.log(this.state.roleName);
 		event.preventDefault();
@@ -89,13 +104,19 @@ class RolesEdit extends Component {
 										/>
 									</label>
 									<input type="text" value={this.props.roleId} hidden/>
+									<div className="message"></div>
 									< div className="modal-footer">
-										<button type="button" onClick={this.handleSubmit}
+										<button type="button"
+												onClick={(e) => {
+													this.handleSubmit(e, false, this.props.roleId)
+												}}
 												className="btn btn-primary">
 											Speichern
 										</button>
-										<button type="button" onClick={this.handleSubmit}
-												className="btn btn-primary mr-1" data-dismiss="modal">
+										<button type="button" onClick={(e) => {
+											this.handleSubmit(e, true, this.props.roleId)
+										}}
+												className="btn btn-primary mr-1">
 											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">

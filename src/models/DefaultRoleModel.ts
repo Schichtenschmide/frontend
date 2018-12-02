@@ -10,7 +10,7 @@ export class DefaultRoleModel implements  IRoleModel {
     public addRole(roleName: string) {
         //TODO implement addRole in DB
         this.roleList.push(roleName);
-        alert("Hello from addRole " + roleName);
+        //alert("Hello from addRole " + roleName);
     }
 
     public removeRole(roleName : string){

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {RoleModel} from "../../../models/DefaultRoleModel";
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
+import $ from 'jquery';
 
 
 class RolesCreate extends Component {
@@ -25,18 +26,26 @@ class RolesCreate extends Component {
 		});
 	}
 
-	handleSubmit(event) {
+	handleSubmit(event, isSaveAndCloseEvent) {
 		//TODO addRole to DB
-		axios.post(baseUrlForTheBackend +'/roles', {
+		axios.post(baseUrlForTheBackend + '/roles', {
 			"name": this.state.roleName,
-			"isActive":"true"
+			"isActive": "true"
 		})
-		.then(function (response) {
-			console.log(response);
-		})
-		.catch(function (error) {
-			console.log(error);
-		});
+			.then(function (response) {
+				console.log('then');
+				console.log(response);
+				$("#message").empty().html("Rolle wurde hinzugef&uuml;gt");
+				if (isSaveAndCloseEvent)
+					$('#createUserDialog').modal('hide');
+			})
+			.catch(function (error) {
+				console.log('catch');
+				console.log(error);
+				$("#message").empty().text("Error: Haben Sie mindestens 3 Buchstaben eingegeben?");
+				if (isSaveAndCloseEvent)
+					$("#message").empty().html("Error \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
+			});
 
 		RoleModel.addRole(this.state.roleName);
 		console.log(this.state.roleName);
@@ -70,14 +79,22 @@ class RolesCreate extends Component {
 											onChange={this.handleInputChange}
 										/>
 									</label>
+									<div id="message"></div>
 									< div className="modal-footer">
-										<button type="button" onClick={this.handleSubmit}
+										<button type="button"
+												onClick={(e) => {
+													this.handleSubmit(e, false)
+												}}
+
 												className="btn btn-primary">
 											Speichern
 										</button>
-										<button type="button" onClick={this.handleSubmit}
+										<button type="button" onClick={(e) => {
+											this.handleSubmit(e, true)
+										}}
 												className="btn btn-primary mr-1"
-												data-dismiss="modal">
+												id="saveAndCloseButton"
+										>
 											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">

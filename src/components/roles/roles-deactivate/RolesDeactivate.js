@@ -3,7 +3,7 @@ import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
 
-class RolesEdit extends Component {
+class RolesDeactivate extends Component {
 	roleId;
 
 	constructor(props) {
@@ -11,9 +11,9 @@ class RolesEdit extends Component {
 
 		this.state = {
 			roleData: [],
-			username: '',
-			roleId: this.props.roleId,
-			roleName: this.props.roleName
+			roleID: this.props.roleId,
+			roleName: this.props.roleName,
+			roleActive: this.props.roleActive
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,18 +35,16 @@ class RolesEdit extends Component {
 
 
 	handleSubmit(event, isSaveAndCloseEvent, roleID) {
-
-		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId, {
+		axios.put(baseUrlForTheBackend + '/roles/' + this.props.roleId, {
 			"name": this.state.roleName,
-			"isActive" : this.props.roleActive
-
+			"isActive": this.state.roleActive
 		})
 			.then(function (response) {
 				console.log("then");
 				console.log(response);
 				$(".message").empty().text("Erfolgreich gespeichert");
 				if (isSaveAndCloseEvent)
-					$("#editRoleNameDialog" + roleID).modal('hide');
+					$("#deactivateRoleNameDialog" + roleID).modal('hide');
 			})
 			.catch(function (error) {
 				console.log("catch");
@@ -57,8 +55,6 @@ class RolesEdit extends Component {
 
 					$(".message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?<br/>");
 				}
-
-
 			});
 		console.log(this.state.roleName);
 		event.preventDefault();
@@ -70,16 +66,17 @@ class RolesEdit extends Component {
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
-						data-target={'#editRoleNameDialog' + this.state.roleId}>
-					bearbeiten
+						data-target={'#deactivateRoleNameDialog' + this.props.roleId}>
+					{this.props.title}
 				</button>
 
-				<div className="modal fade" id={'editRoleNameDialog' + this.state.roleId} tabIndex="-1" role="dialog"
-					 aria-labelledby="createShiftDialogTitle" aria-hidden="true">
+				<div className="modal fade" id={'deactivateRoleNameDialog' + this.props.roleId} tabIndex="-1"
+					 role="dialog"
+					 aria-labelledby="deactivateRoleNameDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h5 className="modal-title" id="exampleModalLongTitle">Rollenamen bearbeiten</h5>
+								<h5 className="modal-title" id="exampleModalLongTitle">Rollenamen deaktivieren</h5>
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -87,7 +84,7 @@ class RolesEdit extends Component {
 							<div className="modal-body">
 								<form>
 									<label>
-										alter Rollenname<br/>
+										Rollenname<br/>
 										<input
 											value={this.props.roleName}
 											type="text"
@@ -97,29 +94,36 @@ class RolesEdit extends Component {
 									</label>
 									<br/>
 									<label>
-										neuer Rollenname<br/>
+
 										<input
-											name={'roleName'}
-											type="text"
-											value={this.state.roleName}
-											onChange={this.handleInputChange}
+											name={'roleActive'}
+											defaultChecked={this.state.roleActive}
+											type="checkbox"
 											className="form-control"
+											onClick={this.handleInputChange}
 										/>
+										Die Rolle ist {this.state.roleActive === true ? "aktiv" : "deaktiviert"}
 									</label>
+
 									<input type="text" value={this.state.roleId} hidden readOnly/>
 									<div className="message"></div>
 									< div className="modal-footer">
-										<button type="button"
-												onClick={(e) => {
-													this.handleSubmit(e, false, this.state.roleId)
-												}}
-												className="btn btn-primary">
+										<button
+											type="button"
+											onClick={(e) => {
+												this.handleSubmit(e, false, this.props.roleId)
+											}}
+											className="btn btn-primary"
+										>
 											Speichern
 										</button>
-										<button type="button" onClick={(e) => {
-											this.handleSubmit(e, true, this.state.roleId)
-										}}
-												className="btn btn-primary mr-1">
+										<button
+											type="button" onClick=
+											{(e) => {
+												this.handleSubmit(e, true, this.props.roleId)
+											}}
+											className="btn btn-primary mr-1"
+										>
 											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -138,4 +142,4 @@ class RolesEdit extends Component {
 
 }
 
-export default RolesEdit;
+export default RolesDeactivate;

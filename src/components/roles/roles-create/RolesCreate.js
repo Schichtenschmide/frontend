@@ -27,7 +27,6 @@ class RolesCreate extends Component {
 	}
 
 	handleSubmit(event, isSaveAndCloseEvent) {
-		//TODO addRole to DB
 		axios.post(baseUrlForTheBackend + '/roles', {
 			"name": this.state.roleName,
 			"isActive": "true"
@@ -42,9 +41,9 @@ class RolesCreate extends Component {
 			.catch(function (error) {
 				console.log('catch');
 				console.log(error);
-				$("#message").empty().text("Error: Haben Sie mindestens 3 Buchstaben eingegeben?");
+				$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
 				if (isSaveAndCloseEvent)
-					$("#message").empty().html("Error \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
+					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
 			});
 
 		RoleModel.addRole(this.state.roleName);

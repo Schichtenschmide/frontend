@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import RolesEdit from "../roles-edit/RolesEdit";
+import RolesDeactivate from "../roles-deactivate/RolesDeactivate";
 
 
 class RolesTable extends Component {
@@ -10,29 +11,74 @@ class RolesTable extends Component {
 		super(props);
 
 		this.state = {
-			roleData:[]
+			roleData: []
 		};
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		axios
 			.get(baseUrlForTheBackend + '/roles')
-			.then(({ data })=> {
+			.then(({data}) => {
 				this.setState({
 					roleData: data
 				});
 			})
-			.catch((err)=> {})
+			.catch((err) => {
+			})
 	}
 
 	render() {
 
-		const listItems = this.state.roleData.map((el,index) =>
-			<tr  key={index}>
-				<td>{el.name}</td>
-				<td><span id="edit" className="glyphicon glyphicon-pencil"><RolesEdit roleName={el.name} roleId={el.stid}/></span></td>
-				<td><span id ="delete" className="glyphicon glyphicon-trash"><a href={el.links[0].href} >l&ouml;schen</a></span></td>
-			</tr>
+		const listItems = this.state.roleData.map((el, index) =>
+			el.active === true ?
+				(
+					<tr key={index}>
+						<td>{el.name}</td>
+						<td><span id="edit" className="glyphicon glyphicon-pencil">
+							<RolesEdit
+								roleName={el.name}
+								roleId={el.stid}
+								roleActive={el.active}
+							/>
+						</span>
+						</td>
+						<td>
+							<span id="delete" className="glyphicon glyphicon-trash">
+								<RolesDeactivate
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+									title={'deaktivieren'}
+								/>
+							</span>
+						</td>
+					</tr>
+				)
+				:
+				(
+					<tr key={index}>
+						<td><span style={{textDecoration: 'line-through'}}>{el.name}</span></td>
+						<td>
+							<span id="edit" className="glyphicon glyphicon-pencil">
+								<RolesEdit
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+								/>
+							</span>
+						</td>
+						<td>
+							<span id="delete" className="glyphicon glyphicon-trash">
+								<RolesDeactivate
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+									title={'aktivieren'}
+								/>
+							</span>
+						</td>
+					</tr>
+				)
 		);
 		console.log(this.state.roleData);
 		return <table className="table">
@@ -47,8 +93,6 @@ class RolesTable extends Component {
 			{listItems}
 			</tbody>
 		</table>
-
-
 
 
 	}

@@ -64,5 +64,12 @@ export const baseUrlForTheBackend = 'https://hello-world-jpa-ch-p.scapp.io';
 ### Push
 Login to Cloudfoundry --> <br/>
 `cf login -a api.lyra-836.appcloud.swisscom.com -u user@example.com -p MySecretPassword` <br/>
-chose you space --> <br/>
+chose your space --> <br/>
 `cf push`
+
+# Sonar
+ 
+ Das Projekt nutzt die SonarCloud um den Code zu überprüfen.  
+ [Sonar Schichtenschmiede](https://sonarcloud.io/organizations/schichtenschmiede/projects)
+
+

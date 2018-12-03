@@ -1,29 +1,124 @@
 import React, {Component} from "react";
 import EmployeeDeleteDialog from "../employee-delete-dialog/EmployeeDeleteDialog";
+import axios from 'axios';
+import {baseUrlForTheBackend} from "../../../constants";
 
 class EmployeeTable extends Component{
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			employeeData: []
+		};
+	}
+
+	componentDidMount() {
+		axios
+			.get(baseUrlForTheBackend + '/employees')
+			.then(({data}) => {
+				this.setState({
+					employeeData: data
+				});
+			})
+			.catch((err) => {
+			})
+	}
+
+
 	render(){
-		return(
 
-			//TODO implement employee table
-			<div className="EmployeeTable">
+		const listItems = this.state.employeeData.map((el, index) =>(
+					<tr key={index}>
+						<td>{el.firstName}</td>
+						<td>{el.lastName}</td>
+						<td>{el.employmentRate}</td>
+						<td><span id="edit" className="glyphicon glyphicon-pencil">
+							bearbeiten
+						</span>
+						</td>
+						<td>
+							<span id="delete" className="glyphicon glyphicon-trash">
+								<EmployeeDeleteDialog firstName={el.firstName} lastName={el.lastName} id={el.stid}/>
+							</span>
+						</td>
+					</tr>))
 
+			return <div className="EmployeeTable">
 				<table className="table">
 					<thead className="thead-light">
 					<tr>
 						<th scope="col">Vorname</th>
 						<th scope="col">Nachname</th>
-						<th scope="col">Rolle</th>
+						<th scope="col">%</th>
+						<th scope="col"></th>
 						<th scope="col"></th>
 					</tr>
 					</thead>
 					<tbody>
-					<tr><td>Walter</td><td>Red</td><td>Koch</td><td><EmployeeDeleteDialog firstName={'Walter'} lastName={'Red'} id={1}/></td></tr>
+					{listItems}
 					</tbody>
 				</table>
 			</div>
-		);
+		;
 	}
 }
 
 export default EmployeeTable;
+
+/*
+
+	render() {
+
+		const listItems = this.state.roleData.map((el, index) =>
+			el.active === true ?
+				(
+					<tr key={index}>
+						<td>{el.name}</td>
+						<td><span id="edit" className="glyphicon glyphicon-pencil">
+							<RolesEdit
+								roleName={el.name}
+								roleId={el.stid}
+								roleActive={el.active}
+							/>
+						</span>
+						</td>
+						<td>
+							<span id="delete" className="glyphicon glyphicon-trash">
+								<RolesDeactivate
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+									title={'deaktivieren'}
+								/>
+							</span>
+						</td>
+					</tr>
+				)
+				:
+				(
+					<tr key={index}>
+						<td><span style={{textDecoration: 'line-through'}}>{el.name}</span></td>
+						<td>
+							<span id="edit" className="glyphicon glyphicon-pencil">
+								<RolesEdit
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+								/>
+							</span>
+						</td>
+						<td>
+							<span id="delete" className="glyphicon glyphicon-trash">
+								<RolesDeactivate
+									roleName={el.name}
+									roleId={el.stid}
+									roleActive={el.active}
+									title={'aktivieren'}
+								/>
+							</span>
+						</td>
+					</tr>
+				)
+		);
+	}
+* */

@@ -27,10 +27,10 @@ class EmployeeDeleteDialog extends Component {
 	render() {
 		return (
 			<div>
-				<button className="btn btn-primary" data-toggle="modal" data-target="#deleteEmployeeDialog">
+				<button className="btn btn-primary" data-toggle="modal" data-target={'#deleteEmployeeDialog' + this.props.id}>
 					löschen
 				</button>
-				<div className="modal fade" id="deleteEmployeeDialog" tabIndex="-1" role="dialog"
+				<div className="modal fade" id={'deleteEmployeeDialog' + this.props.id} tabIndex="-1" role="dialog"
 					 aria-labelledby="deleteEmployeeDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">

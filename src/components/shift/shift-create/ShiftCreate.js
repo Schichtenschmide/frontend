@@ -6,11 +6,18 @@ class ShiftCreate extends Component {
 		super(props);
 
 		this.state = {
-			name : '',
+			name: '',
 			startTime: '',
 			endTime: '',
 			shorthand: '',
-			employeeCount: ''
+			employeeCount: '',
+			isMonday: '',
+			isTuesday: '',
+			isWednesday: '',
+			isThursday: '',
+			isFriday: '',
+			isSaturday: '',
+			isSunday: ''
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -56,65 +63,84 @@ class ShiftCreate extends Component {
 							<div className="modal-body">
 								<form>
 									<label htmlFor="name">Name</label>
-									<input name={'name'} type="text" id="name" value={this.state.name} onChange={this.handleInputChange} className="form-control"/>
+									<input name={'name'} type="text" id="name" value={this.state.name}
+										   onChange={this.handleInputChange} className="form-control"/>
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
-											<input name={'startTime'} type="time"  id="startTime" value={this.state.startTime} onChange={this.handleInputChange} className="form-control"/>
+											<input name={'startTime'} type="time" id="startTime"
+												   value={this.state.startTime} onChange={this.handleInputChange}
+												   className="form-control"/>
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
-											<input name={'endTime'} type="time" id="endTime" value={this.state.endTime} onChange={this.handleInputChange} className="form-control"/>
+											<input name={'endTime'} type="time" id="endTime" value={this.state.endTime}
+												   onChange={this.handleInputChange} className="form-control"/>
 										</div>
 									</div>
 									<label htmlFor="shorthand">Shorthand</label>
-									<input name={'shorthand'} type="text" id="shorthand" value={this.state.shorthand} onChange={this.handleInputChange} className="form-control"/>
-
+									<input name={'shorthand'}
+										   type="text"
+										   id="shorthand"
+										   value={this.state.shorthand}
+										   onChange={this.handleInputChange}
+										   className="form-control"
+									/>
 									<div className="form-check">
 										<input className="form-check-input" type="checkbox" value="" id="monday"/>
 										<label className="form-check-label" htmlFor="defaultCheck1">
 											Montag
 										</label>
 									</div>
+									id="wednesday"
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="tuesday"/>
-										<label className="form-check-label" htmlFor="defaultCheck1">
+										<input
+											name={'isTuesday"'}
+											defaultChecked={this.state.isWednesday}
+											type="checkbox"
+											id="tuesday"
+											className="form-check-input"
+											onClick={this.handleInputChange}
+										/>
+										<label className="form-check-label" htmlFor="tuesday">
 											Dienstag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="wednesday"/>
-										<label className="form-check-label" htmlFor="wednesday">
-											Mittwoch
-										</label>
-									</div>
-									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="thursday"/>
+										<input
+											name={'isThursday'}
+											className="form-check-input"
+											type="checkbox"
+											id="thursday"
+											defaultChecked={this.state.isThursday}
+											onClick={this.handleInputChange}
+										/>
 										<label className="form-check-label" htmlFor="thursday">
-											Donnestag
+											Donnerstag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="friday"/>
+										<input className="form-check-input" type="checkbox" id="friday"/>
 										<label className="form-check-label" htmlFor="friday">
 											Freitag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="saturday"/>
+										<input className="form-check-input" type="checkbox" id="saturday"/>
 										<label className="form-check-label" htmlFor="saturday">
 											Samstag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="sunday"/>
+										<input className="form-check-input" type="checkbox" id="sunday"/>
 										<label className="form-check-label" htmlFor="sunday">
 											Sonntag
 										</label>
 									</div>
 									<label htmlFor="employeeCount">Anzahl Mitarbeiter</label>
-									<input name={'employeeCount'} type="number" id="employeeCount" value={this.state.employeeCount} onChange={this.handleInputChange} className="form-control"/>
-
+									<input name={'employeeCount'} type="number" id="employeeCount"
+										   value={this.state.employeeCount} onChange={this.handleInputChange}
+										   className="form-control"/>
 
 
 									< div className="modal-footer">
@@ -122,7 +148,8 @@ class ShiftCreate extends Component {
 												className="btn btn-primary">
 											Speichern
 										</button>
-										<button type="button" onClick={this.handleSubmit} className="btn btn-primary mr-1" data-dismiss="modal">
+										<button type="button" onClick={this.handleSubmit}
+												className="btn btn-primary mr-1" data-dismiss="modal">
 											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">

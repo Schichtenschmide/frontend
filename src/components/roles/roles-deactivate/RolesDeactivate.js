@@ -79,16 +79,20 @@ class RolesDeactivate extends Component {
 										/>
 									</label>
 									<br/>
-									<label>
-										<input
-											name={'roleActive'}
-											defaultChecked={this.state.roleActive}
-											type="checkbox"
-											className="form-control"
-											onClick={this.handleInputChange}
-										/>
-										Die Rolle ist {this.state.roleActive === true ? "aktiv" : "deaktiviert"}
-									</label>
+
+									<div className="form-check">
+										<label className="form-check-label" id="roleActive">
+											<input
+												htmlFor="roleActive"
+												name={'roleActive'}
+												defaultChecked={this.state.roleActive}
+												type="checkbox"
+												className="form-check-input"
+												onClick={this.handleInputChange}
+											/>
+											Die Rolle ist {this.state.roleActive === true ? "aktiv" : "deaktiviert"}
+										</label>
+									</div>
 									<div className="message"> </div>
 									< div className="modal-footer">
 										<button

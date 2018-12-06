@@ -31,13 +31,13 @@ class RolesTable extends Component {
 
 		const listItems = this.state.roleData.map((el, index) =>
 			<tr key={index}>
-				<td><span style={el.active === false ? ({textDecoration: 'line-through'}) : ({})}>{el.name}</span></td>
+				<td><span style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.name}</span></td>
 				<td>
 					<span id="edit" className="glyphicon glyphicon-pencil">
 						<RolesEdit
 							roleName={el.name}
 							roleId={el.stid}
-							roleActive={el.active}
+							roleActive={el.isActive}
 						/>
 					</span>
 				</td>
@@ -46,8 +46,8 @@ class RolesTable extends Component {
 						<RolesDeactivate
 							roleName={el.name}
 							roleId={el.stid}
-							roleActive={el.active}
-							title={el.active === true ? ('deaktivieren') : ('aktivieren')}
+							roleActive={el.isActive}
+							title={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
 						/>
 					</span>
 				</td>

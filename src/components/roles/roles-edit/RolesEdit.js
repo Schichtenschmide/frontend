@@ -73,7 +73,6 @@ class RolesEdit extends Component {
 						data-target={'#editRoleNameDialog' + this.state.roleId}>
 					bearbeiten
 				</button>
-
 				<div className="modal fade" id={'editRoleNameDialog' + this.state.roleId} tabIndex="-1" role="dialog"
 					 aria-labelledby="createShiftDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">

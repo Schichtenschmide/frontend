@@ -30,55 +30,28 @@ class RolesTable extends Component {
 	render() {
 
 		const listItems = this.state.roleData.map((el, index) =>
-			el.active === true ?
-				(
-					<tr key={index}>
-						<td>{el.name}</td>
-						<td><span id="edit" className="glyphicon glyphicon-pencil">
-							<RolesEdit
-								roleName={el.name}
-								roleId={el.stid}
-								roleActive={el.active}
-							/>
-						</span>
-						</td>
-						<td>
-							<span id="delete" className="glyphicon glyphicon-trash">
-								<RolesDeactivate
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-									title={'deaktivieren'}
-								/>
-							</span>
-						</td>
-					</tr>
-				)
-				:
-				(
-					<tr key={index}>
-						<td><span style={{textDecoration: 'line-through'}}>{el.name}</span></td>
-						<td>
-							<span id="edit" className="glyphicon glyphicon-pencil">
-								<RolesEdit
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-								/>
-							</span>
-						</td>
-						<td>
-							<span id="delete" className="glyphicon glyphicon-trash">
-								<RolesDeactivate
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-									title={'aktivieren'}
-								/>
-							</span>
-						</td>
-					</tr>
-				)
+			<tr key={index}>
+				<td><span style={el.active === false ? ({textDecoration: 'line-through'}) : ({})}>{el.name}</span></td>
+				<td>
+					<span id="edit" className="glyphicon glyphicon-pencil">
+						<RolesEdit
+							roleName={el.name}
+							roleId={el.stid}
+							roleActive={el.active}
+						/>
+					</span>
+				</td>
+				<td>
+					<span id="delete" className="glyphicon glyphicon-trash">
+						<RolesDeactivate
+							roleName={el.name}
+							roleId={el.stid}
+							roleActive={el.active}
+							title={el.active === true ? ('deaktivieren') : ('aktivieren')}
+						/>
+					</span>
+				</td>
+			</tr>
 		);
 		console.log(this.state.roleData);
 		return <table className="table">

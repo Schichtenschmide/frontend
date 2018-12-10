@@ -21,10 +21,26 @@ class ShiftCreate extends Component {
 			isThursday: '',
 			isFriday: '',
 			isSaturday: '',
-			isSunday: ''
+			isSunday: '',
+			roleData: [],
+			roleId: ''
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	componentDidMount() {
+		axios.get(baseUrlForTheBackend + '/roles')
+			.then(({data}) => {
+				this.setState({
+					roleData: data
+				});
+				console.log(data);
+			})
+			.catch(function (error) {
+				console.log('catch');
+				console.log(error);
+			});
 	}
 
 	handleInputChange(event) {
@@ -38,41 +54,48 @@ class ShiftCreate extends Component {
 	}
 
 	handleSubmit(event, isSaveAndCloseEvent) {
-
-		axios.post(baseUrlForTheBackend + '/shifts', {
-			"name": this.state.name,
-			"startTime": this.state.startTime,
-			"endTime": this.state.endTime,
-			"shorthand": this.state.shorthand,
-			"employeeCount": this.state.employeeCount,
-			"isActive": this.state.isActive,
-			"isMonday": this.state.isMonday,
-			"isTuesday": this.state.isTuesday,
-			"isWednesday": this.state.isWednesday,
-			"isThursday": this.state.isThursday,
-			"isFriday": this.state.isFriday,
-			"isSaturday": this.state.isSaturday,
-			"isSunday": this.state.isSunday
-		})
-			.then(function (response) {
-				console.log('then');
-				console.log(response);
-				$("#message").empty().html("Schicht wurde hinzugef&uuml;gt");
-				if (isSaveAndCloseEvent)
-					$('#createShiftDialog').modal('hide');
+		if (this.state.roleId === '') {
+			$("#message").empty().html("Bitte wählen Sie eine Rolle");
+		} else {
+			axios.post(baseUrlForTheBackend + '/role/' + this.state.roleId + '/shifts', {
+				"name": this.state.name,
+				"startTime": this.state.startTime,
+				"endTime": this.state.endTime,
+				"shorthand": this.state.shorthand,
+				"employeeCount": this.state.employeeCount,
+				"isActive": this.state.isActive,
+				"isMonday": this.state.isMonday,
+				"isTuesday": this.state.isTuesday,
+				"isWednesday": this.state.isWednesday,
+				"isThursday": this.state.isThursday,
+				"isFriday": this.state.isFriday,
+				"isSaturday": this.state.isSaturday,
+				"isSunday": this.state.isSunday
 			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
-				if (isSaveAndCloseEvent)
-					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-				else
-					$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-			});
+				.then(function (response) {
+					console.log('then');
+					console.log(response);
+					$("#message").empty().html("Schicht wurde hinzugef&uuml;gt");
+					if (isSaveAndCloseEvent)
+						$('#createShiftDialog').modal('hide');
+				})
+				.catch(function (error) {
+					console.log('catch');
+					console.log(error);
+					if (isSaveAndCloseEvent)
+						$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+					else
+						$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+				});
+		}
 		event.preventDefault();
 	}
 
 	render() {
+		const roleList = this.state.roleData.map((el, index) => (
+			<option key={index} value={el.stid}>{el.name}</option>
+		));
+
 		return (
 			<div>
 				<button className="btn btn-primary" data-toggle="modal" data-target="#createShiftDialog">
@@ -211,12 +234,23 @@ class ShiftCreate extends Component {
 									<input name={'employeeCount'} type="number" id="employeeCount"
 										   value={this.state.employeeCount} onChange={this.handleInputChange}
 										   className="form-control"/>
+									<div className="form-group">
+										<label htmlFor="role">Rolle</label>
+										<select className="form-control"
+												name={'roleId'}
+												id="role"
+												onChange={this.handleInputChange}
+										>
+											<option value={''}/>
+											{roleList}
+										</select>
+									</div>
 									<div className="form-check">
 										<input name={'isActive'} type="checkbox" id="isActive"
 											   value={this.state.isActive} onChange={this.handleInputChange}/>
 										<label htmlFor="isActive">Aktive Schicht</label>
 									</div>
-									<div id="message"> </div>
+									<div id="message"/>
 									<div className="modal-footer">
 										<button type="button"
 												onClick={(e) => {

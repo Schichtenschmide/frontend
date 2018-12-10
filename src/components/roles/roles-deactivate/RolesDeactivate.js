@@ -79,7 +79,6 @@ class RolesDeactivate extends Component {
 										/>
 									</label>
 									<br/>
-
 									<div className="form-check">
 										<label className="form-check-label" id="roleActive">
 											<input

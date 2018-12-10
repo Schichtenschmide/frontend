@@ -78,7 +78,6 @@ class EmployeeDeactivate extends Component {
 										Die Person ist {this.state.isEmployeeActive === true ? "aktiv" : "deaktiviert"}
 									</label>
 								</div>
-
 								<div id={'message' + this.props.id}/>
 								< div className="modal-footer">
 									<button type="button" onClick={this.handleSubmit} className="btn btn-primary">

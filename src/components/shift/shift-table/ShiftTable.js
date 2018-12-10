@@ -56,8 +56,7 @@ wednesday: false
 				<td>{el.startTime}</td>
 				<td>{el.endTime}</td>
 				<td>{el.employeeCount}</td>
-				<td>{el.isMonday  ? 'Mo ':''}{el.isTuesday ? 'Di ':''}{el.isWednesday ? 'Mi ':''} {el.isThursday ? 'Do ':''} {el.isFriday ? 'Fr ':''}{el.isSaturday ? 'Sa ':''}{el.isSunday ? 'So ':''}</td>
-
+				<td>{el.isMonday ? 'Mo ' : ''}{el.isTuesday ? 'Di ' : ''}{el.isWednesday ? 'Mi ' : ''} {el.isThursday ? 'Do ' : ''} {el.isFriday ? 'Fr ' : ''}{el.isSaturday ? 'Sa ' : ''}{el.isSunday ? 'So ' : ''}</td>
 				<td>
 					<span id="edit" className="glyphicon glyphicon-pencil">
 						bearbeiten
@@ -79,8 +78,8 @@ wednesday: false
 				<th scope="col">Ende</th>
 				<th scope="col">Mitarbeiter</th>
 				<th scope="col">Wochentage</th>
-				<th scope="col"> </th>
-				<th scope="col"> </th>
+				<th scope="col"></th>
+				<th scope="col"></th>
 
 			</tr>
 			</thead>

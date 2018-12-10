@@ -27,7 +27,7 @@ class EmployeeDeactivate extends Component {
 
 	handleSubmit(event) {
 		const id = this.props.id;
-		axios.put(baseUrlForTheBackend + '/employees/' + this.props.id,
+		axios.put(baseUrlForTheBackend +'/roles/'+ this.props.roleId + '/employee/' + this.props.id,
 			{
 				'firstName': this.props.firstName,
 				'lastName': this.props.lastName,
@@ -35,13 +35,13 @@ class EmployeeDeactivate extends Component {
 			})
 			.then(function (response) {
 				console.log(response);
-				$(".message").empty().text("Erfolgreich gespeichert");
-				
+				$("#message" + id).empty().text("Erfolgreich gespeichert");
+
 				$('#deactivateEmployeeDialog' + id).modal('hide');
 			})
 			.catch(function (error) {
 				console.log(error);
-				$(".message").html("Fehler! Bitte versuchen Sie es später.");
+				$("#message" + id).html("Fehler! Bitte versuchen Sie es später.");
 			});
 		event.preventDefault();
 	}
@@ -58,23 +58,28 @@ class EmployeeDeactivate extends Component {
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h5 className="modal-title" id="exampleModalLongTitle">Mitarbeiter deaktivieren</h5>
+								<h5 className="modal-title" id="exampleModalLongTitle">Mitarbeiter de/reaktivieren</h5>
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
 							<div className="modal-body">
 								<h2>{this.props.firstName} {this.props.lastName}</h2>
-								<label>
-									<input
-										name={'isEmployeeActive'}
-										defaultChecked={this.state.isEmployeeActive}
-										type="checkbox"
-										className="form-control"
-										onClick={this.handleInputChange}
-									/>
-									Die Person ist {this.state.isEmployeeActive === true ? "aktiv" : "deaktiviert"}
-								</label>
+								<div className="form-check">
+									<label className="form-check-label" id="employeeActive">
+										<input
+											htmlFor="employeeActive"
+											name={'isEmployeeActive'}
+											defaultChecked={this.state.isEmployeeActive}
+											type="checkbox"
+											className="form-check-input"
+											onClick={this.handleInputChange}
+										/>
+										Die Person ist {this.state.isEmployeeActive === true ? "aktiv" : "deaktiviert"}
+									</label>
+								</div>
+
+								<div id={'message' + this.props.id}/>
 								< div className="modal-footer">
 									<button type="button" onClick={this.handleSubmit} className="btn btn-primary">
 										Speichern und Schliessen

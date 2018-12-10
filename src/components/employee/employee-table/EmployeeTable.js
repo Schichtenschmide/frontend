@@ -25,15 +25,14 @@ class EmployeeTable extends Component {
 			})
 	}
 
-
 	render() {
-
 		const listItems = this.state.employeeData.map((el, index) => (
 
 			<tr key={index}>
 				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.firstName}</td>
 				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.lastName}</td>
 				<td>{el.employmentRate} </td>
+				<td>{el.role.name}</td>
 				<td>
 					<span id="edit" className="glyphicon glyphicon-pencil">
 						<EmployeeEdit
@@ -42,18 +41,20 @@ class EmployeeTable extends Component {
 							lastName={el.lastName}
 							employmentRate={el.employmentRate}
 							isActive={el.isActive}
+							roleId={el.role.stid}
 						/>
 					</span>
 				</td>
 				<td>
-							<span id="delete" className="glyphicon glyphicon-trash">
-								<EmployeeDeactivate id={el.stid}
-													firstName={el.firstName}
-													lastName={el.lastName}
-													isEmployeeActive={el.isActive}
-													buttonTitle={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
-								/>
-							</span>
+					<span id="delete" className="glyphicon glyphicon-trash">
+						<EmployeeDeactivate id={el.stid}
+											firstName={el.firstName}
+											lastName={el.lastName}
+											isEmployeeActive={el.isActive}
+											buttonTitle={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
+											roleId={el.role.stid}
+						/>
+					</span>
 				</td>
 			</tr>
 
@@ -65,9 +66,10 @@ class EmployeeTable extends Component {
 				<tr>
 					<th scope="col">Vorname</th>
 					<th scope="col">Nachname</th>
-					<th scope="col">%</th>
-					<th scope="col"> </th>
-					<th scope="col"> </th>
+					<th scope="col">Stellenprozent</th>
+					<th scope="col">Rolle</th>
+					<th scope="col"/>
+					<th scope="col"/>
 				</tr>
 				</thead>
 				<tbody>
@@ -80,61 +82,3 @@ class EmployeeTable extends Component {
 }
 
 export default EmployeeTable;
-
-/*
-
-	render() {
-
-		const listItems = this.state.roleData.map((el, index) =>
-			el.active === true ?
-				(
-					<tr key={index}>
-						<td>{el.name}</td>
-						<td><span id="edit" className="glyphicon glyphicon-pencil">
-							<RolesEdit
-								roleName={el.name}
-								roleId={el.stid}
-								roleActive={el.active}
-							/>
-						</span>
-						</td>
-						<td>
-							<span id="delete" className="glyphicon glyphicon-trash">
-								<RolesDeactivate
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-									title={'deaktivieren'}
-								/>
-							</span>
-						</td>
-					</tr>
-				)
-				:
-				(
-					<tr key={index}>
-						<td><span style={{textDecoration: 'line-through'}}>{el.name}</span></td>
-						<td>
-							<span id="edit" className="glyphicon glyphicon-pencil">
-								<RolesEdit
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-								/>
-							</span>
-						</td>
-						<td>
-							<span id="delete" className="glyphicon glyphicon-trash">
-								<RolesDeactivate
-									roleName={el.name}
-									roleId={el.stid}
-									roleActive={el.active}
-									title={'aktivieren'}
-								/>
-							</span>
-						</td>
-					</tr>
-				)
-		);
-	}
-* */

@@ -38,13 +38,13 @@ class RolesDeactivate extends Component {
 			.then(function (response) {
 				console.log("then");
 				console.log(response);
-				$(".message").empty().text("Erfolgreich gespeichert");
+				$("#message" + roleID).empty().text("Erfolgreich gespeichert");
 				$('#deactivateRoleNameDialog' + roleID).delay(5000).modal('hide');
 			})
 			.catch(function (error) {
 				console.log("catch");
 				console.log(error);
-				$(".message").html("Fehler! Bitte versuchen Sie es später.");
+				$("#message" + roleID).html("Fehler! Bitte versuchen Sie es später.");
 			});
 		event.preventDefault();
 	}
@@ -93,7 +93,7 @@ class RolesDeactivate extends Component {
 											Die Rolle ist {this.state.roleActive === true ? "aktiv" : "deaktiviert"}
 										</label>
 									</div>
-									<div className="message"> </div>
+									<div id={'message' + this.props.roleId}> </div>
 									< div className="modal-footer">
 										<button
 											type="button" onClick=

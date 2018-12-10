@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import {baseUrlForTheBackend} from "../../../constants";
+import axios from "axios";
+import $ from "jquery";
 
 
 class ShiftCreate extends Component {
@@ -11,6 +14,7 @@ class ShiftCreate extends Component {
 			endTime: '',
 			shorthand: '',
 			employeeCount: '',
+			isActive: '',
 			isMonday: '',
 			isTuesday: '',
 			isWednesday: '',
@@ -33,13 +37,38 @@ class ShiftCreate extends Component {
 		});
 	}
 
-	handleSubmit(event) {
-		//TODO addToDB
-		console.log(this.state.name);
-		console.log(this.state.startTime);
-		console.log(this.state.endTime);
-		console.log(this.state.shorthand);
-		console.log(this.state.employeeCount);
+	handleSubmit(event, isSaveAndCloseEvent) {
+
+		axios.post(baseUrlForTheBackend + '/shifts', {
+			"name": this.state.name,
+			"startTime": this.state.startTime,
+			"endTime": this.state.endTime,
+			"shorthand": this.state.shorthand,
+			"employeeCount": this.state.employeeCount,
+			"isActive": this.state.isActive,
+			"isMonday": this.state.isMonday,
+			"isTuesday": this.state.isTuesday,
+			"isWednesday": this.state.isWednesday,
+			"isThursday": this.state.isThursday,
+			"isFriday": this.state.isFriday,
+			"isSaturday": this.state.isSaturday,
+			"isSunday": this.state.isSunday
+		})
+			.then(function (response) {
+				console.log('then');
+				console.log(response);
+				$("#message").empty().html("Schicht wurde hinzugef&uuml;gt");
+				if (isSaveAndCloseEvent)
+					$('#createShiftDialog').modal('hide');
+			})
+			.catch(function (error) {
+				console.log('catch');
+				console.log(error);
+				if (isSaveAndCloseEvent)
+					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+				else
+					$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+			});
 		event.preventDefault();
 	}
 
@@ -68,13 +97,14 @@ class ShiftCreate extends Component {
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
-											<input name={'startTime'} type="time" id="startTime"
+											<input name={'startTime'} type="number" step={1} id="startTime"
 												   value={this.state.startTime} onChange={this.handleInputChange}
 												   className="form-control"/>
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
-											<input name={'endTime'} type="time" id="endTime" value={this.state.endTime}
+											<input name={'endTime'} type="number" step={1} id="endTime"
+												   value={this.state.endTime}
 												   onChange={this.handleInputChange} className="form-control"/>
 										</div>
 									</div>
@@ -87,16 +117,22 @@ class ShiftCreate extends Component {
 										   className="form-control"
 									/>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" value="" id="monday"/>
-										<label className="form-check-label" htmlFor="defaultCheck1">
+										<input
+											name={'isMonday'}
+											defaultChecked={this.state.isMonday}
+											type="checkbox"
+											id="monday"
+											className="form-check-input"
+											onClick={this.handleInputChange}
+										/>
+										<label className="form-check-label" htmlFor="monday">
 											Montag
 										</label>
 									</div>
-									id="wednesday"
 									<div className="form-check">
 										<input
-											name={'isTuesday"'}
-											defaultChecked={this.state.isWednesday}
+											name={'isTuesday'}
+											defaultChecked={this.state.isTuesday}
 											type="checkbox"
 											id="tuesday"
 											className="form-check-input"
@@ -104,6 +140,19 @@ class ShiftCreate extends Component {
 										/>
 										<label className="form-check-label" htmlFor="tuesday">
 											Dienstag
+										</label>
+									</div>
+									<div className="form-check">
+										<input
+											name={'isWednesday'}
+											className="form-check-input"
+											type="checkbox"
+											id="wednesday"
+											defaultChecked={this.state.isWednesday}
+											onClick={this.handleInputChange}
+										/>
+										<label className="form-check-label" htmlFor="wednesday">
+											Mittwoch
 										</label>
 									</div>
 									<div className="form-check">
@@ -120,19 +169,40 @@ class ShiftCreate extends Component {
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" id="friday"/>
+										<input
+											name={'isFriday'}
+											className="form-check-input"
+											type="checkbox"
+											id="friday"
+											defaultChecked={this.state.isFriday}
+											onClick={this.handleInputChange}
+										/>
 										<label className="form-check-label" htmlFor="friday">
 											Freitag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" id="saturday"/>
+										<input
+											name={'isSaturday'}
+											className="form-check-input"
+											type="checkbox"
+											id="saturday"
+											defaultChecked={this.state.isSaturday}
+											onClick={this.handleInputChange}
+										/>
 										<label className="form-check-label" htmlFor="saturday">
 											Samstag
 										</label>
 									</div>
 									<div className="form-check">
-										<input className="form-check-input" type="checkbox" id="sunday"/>
+										<input
+											name={'isSunday'}
+											className="form-check-input"
+											type="checkbox"
+											id="sunday"
+											defaultChecked={this.state.isSunday}
+											onClick={this.handleInputChange}
+										/>
 										<label className="form-check-label" htmlFor="sunday">
 											Sonntag
 										</label>
@@ -141,15 +211,26 @@ class ShiftCreate extends Component {
 									<input name={'employeeCount'} type="number" id="employeeCount"
 										   value={this.state.employeeCount} onChange={this.handleInputChange}
 										   className="form-control"/>
-
-
-									< div className="modal-footer">
-										<button type="button" onClick={this.handleSubmit}
+									<div className="form-check">
+										<input name={'isActive'} type="checkbox" id="isActive"
+											   value={this.state.isActive} onChange={this.handleInputChange}/>
+										<label htmlFor="isActive">Aktive Schicht</label>
+									</div>
+									<div id="message"> </div>
+									<div className="modal-footer">
+										<button type="button"
+												onClick={(e) => {
+													this.handleSubmit(e, false)
+												}}
 												className="btn btn-primary">
 											Speichern
 										</button>
-										<button type="button" onClick={this.handleSubmit}
-												className="btn btn-primary mr-1" data-dismiss="modal">
+										<button type="button" onClick={(e) => {
+											this.handleSubmit(e, true)
+										}}
+												className="btn btn-primary mr-1"
+												id="saveAndCloseButton"
+										>
 											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
@@ -167,47 +248,3 @@ class ShiftCreate extends Component {
 }
 
 export default ShiftCreate;
-
-/*
-
-
-
-
-	handleSubmit(event) {
-		//TODO addRole
-		RoleModel.addRole(this.state.roleName);
-		console.log(this.state.roleName);
-		event.preventDefault();
-	}
-
-
-
-
-
-												<label>
-													Rollenname<br/>
-													<input
-														name={'roleName'}
-														type="text"
-														value={this.state.roleName}
-														onChange={this.handleInputChange}
-													/>
-												</label>
-												< div className="modal-footer">
-													<button type="button" onClick={this.handleSubmit}
-															className="btn btn-primary">
-														Speichern
-													</button>
-													<button type="button" onClick={this.handleSubmit}
-															className="btn btn-primary mr-1"
-															data-dismiss="modal">
-														Speichern und schliessen
-													</button>
-													< button type="button" className="btn btn-secondary" data-dismiss="modal">
-														Abbrechen
-													</button>
-												</div>
-											</form>
-
-
-* */

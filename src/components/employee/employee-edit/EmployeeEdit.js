@@ -12,11 +12,28 @@ class EmployeeEdit extends Component {
 			firstName: this.props.firstName,
 			lastName: this.props.lastName,
 			employmentRate: this.props.employmentRate,
-			isActive: this.props.isActive
+			isActive: this.props.isActive,
+			roleData: [],
+			roleId: this.props.roleId
 
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		$('.message').empty();
+	}
+
+	componentDidMount() {
+		axios.get(baseUrlForTheBackend + '/roles')
+			.then(({data}) => {
+				this.setState({
+					roleData: data
+				});
+				console.log(data);
+			})
+			.catch(function (error) {
+				console.log('catch');
+				console.log(error);
+			});
 	}
 
 	handleInputChange(event) {
@@ -31,7 +48,7 @@ class EmployeeEdit extends Component {
 
 	handleSubmit(event, isSaveAndCloseEvent) {
 		const id = this.props.employeeId;
-		axios.put(baseUrlForTheBackend + '/employees/' + this.props.employeeId,
+		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId + '/employee/' + this.props.employeeId,
 			{
 				"firstName": this.state.firstName,
 				"lastName": this.state.lastName,
@@ -41,23 +58,28 @@ class EmployeeEdit extends Component {
 			.then(function (response) {
 				console.log('then');
 				console.log(response);
-				$("#message").empty().html("Mitarbeiter wurde ge&auml;ndert");
+				$("#message" + id).empty().html("Mitarbeiter wurde ge&auml;ndert");
 				if (isSaveAndCloseEvent)
 					$('#editEmployeeDialog' + id).modal('hide');
 			})
 			.catch(function (error) {
 				console.log('catch');
 				console.log(error);
-				if (isSaveAndCloseEvent){
-					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
-				} else{
-					$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?");
+				if (isSaveAndCloseEvent) {
+					$("#message" + id).empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
+				} else {
+					$("#message" + id).empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?");
 				}
 			});
 		event.preventDefault();
 	}
 
 	render() {
+		const roleList = this.state.roleData.map((el, index) => (
+			<option selected={this.props.roleId === el.stid ? 'true' : ''} key={index}
+					value={el.stid}>{el.name}</option>
+		));
+
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
@@ -70,7 +92,7 @@ class EmployeeEdit extends Component {
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
 							<div className="modal-header">
-								<h5 className="modal-title" id="exampleModalLongTitle">Mitarbeiter hinzufügen</h5>
+								<h5 className="modal-title" id="exampleModalLongTitle">Mitarbeiter bearbeiten</h5>
 								<button type="button" className="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -88,11 +110,21 @@ class EmployeeEdit extends Component {
 									<input name={'employmentRate'} type="number" id="employmentRate"
 										   value={this.state.employmentRate} onChange={this.handleInputChange}
 										   className="form-control"/>
+									<div className="form-group">
+										<label htmlFor="role">Rolle</label>
+										<select className="form-control"
+												name={'roleId'}
+												id="role"
+												onChange={this.handleInputChange}
+										>
+											{roleList}
+										</select>
+									</div>
 									<input name={'isActive'} type="checkbox" id="isActive"
 										   defaultChecked={this.state.isActive}
 										   value={this.state.isActive} onClick={this.handleInputChange}/>
 									<label htmlFor="isActive">Aktiver Mitarbeiter</label>
-									<div id="message"> </div>
+									<div id={'message' + this.props.employeeId}/>
 									< div className="modal-footer">
 										<button type="button"
 												onClick={(e) => {

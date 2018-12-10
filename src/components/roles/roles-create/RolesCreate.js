@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {RoleModel} from "../../../models/DefaultRoleModel";
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
@@ -41,13 +40,12 @@ class RolesCreate extends Component {
 			.catch(function (error) {
 				console.log('catch');
 				console.log(error);
-				$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+
 				if (isSaveAndCloseEvent)
 					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+				else
+					$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
 			});
-
-		RoleModel.addRole(this.state.roleName);
-		console.log(this.state.roleName);
 		event.preventDefault();
 	}
 
@@ -78,7 +76,7 @@ class RolesCreate extends Component {
 											onChange={this.handleInputChange}
 										/>
 									</label>
-									<div id="message"></div>
+									<div id="message"/>
 									< div className="modal-footer">
 										<button type="button"
 												onClick={(e) => {

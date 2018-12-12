@@ -34,30 +34,23 @@ class RolesEdit extends Component {
 	}
 
 
-	handleSubmit(event, isSaveAndCloseEvent, roleID) {
-
+	handleSubmit(event) {
+		const roleId = this.props.roleId;
 		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId, {
 			"name": this.state.roleName,
-			"isActive" : this.props.roleActive
+			"isActive": this.props.roleActive
 
 		})
 			.then(function (response) {
 				console.log("then");
 				console.log(response);
-				$(".message").empty().text("Erfolgreich gespeichert");
-				if (isSaveAndCloseEvent)
-					$("#editRoleNameDialog" + roleID).modal('hide');
+				$("#message" + roleId).empty().text("Erfolgreich gespeichert");
+				$("#editRoleNameDialog" + roleId).modal('hide');
 			})
 			.catch(function (error) {
 				console.log("catch");
 				console.log(error);
-				if (isSaveAndCloseEvent) {
-					$(".message").html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-				} else {
-
-					$(".message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?<br/>");
-				}
-
+				$("#message" + roleId).html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
 
 			});
 		console.log(this.state.roleName);
@@ -105,18 +98,10 @@ class RolesEdit extends Component {
 											className="form-control"
 										/>
 									</label>
-									<input type="text" value={this.state.roleId} hidden readOnly/>
-									<div className="message"></div>
+									<div id={'message' + this.props.roleId}/>
 									< div className="modal-footer">
-										<button type="button"
-												onClick={(e) => {
-													this.handleSubmit(e, false, this.state.roleId)
-												}}
-												className="btn btn-primary">
-											Speichern
-										</button>
 										<button type="button" onClick={(e) => {
-											this.handleSubmit(e, true, this.state.roleId)
+											this.handleSubmit(e)
 										}}
 												className="btn btn-primary mr-1">
 											Speichern und schliessen

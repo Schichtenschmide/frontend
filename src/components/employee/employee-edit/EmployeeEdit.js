@@ -46,7 +46,7 @@ class EmployeeEdit extends Component {
 		});
 	}
 
-	handleSubmit(event, isSaveAndCloseEvent) {
+	handleSubmit(event) {
 		const id = this.props.employeeId;
 		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId + '/employee/' + this.props.employeeId,
 			{
@@ -59,17 +59,12 @@ class EmployeeEdit extends Component {
 				console.log('then');
 				console.log(response);
 				$("#message" + id).empty().html("Mitarbeiter wurde ge&auml;ndert");
-				if (isSaveAndCloseEvent)
-					$('#editEmployeeDialog' + id).modal('hide');
+				setTimeout(function() { $('#editEmployeeDialog' + id).modal('hide'); }, 2000);
 			})
 			.catch(function (error) {
 				console.log('catch');
 				console.log(error);
-				if (isSaveAndCloseEvent) {
-					$("#message" + id).empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
-				} else {
-					$("#message" + id).empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?");
-				}
+				$("#message" + id).empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
 			});
 		event.preventDefault();
 	}
@@ -126,15 +121,8 @@ class EmployeeEdit extends Component {
 									<label htmlFor="isActive">Aktiver Mitarbeiter</label>
 									<div id={'message' + this.props.employeeId}/>
 									< div className="modal-footer">
-										<button type="button"
-												onClick={(e) => {
-													this.handleSubmit(e, false)
-												}}
-												className="btn btn-primary">
-											Speichern
-										</button>
 										<button type="button" onClick={(e) => {
-											this.handleSubmit(e, true)
+											this.handleSubmit(e)
 										}}
 												className="btn btn-primary mr-1"
 												id="saveAndCloseButton"

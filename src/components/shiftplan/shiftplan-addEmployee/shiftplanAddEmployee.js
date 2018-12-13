@@ -15,17 +15,33 @@ class ShiftPlanAddEmployee extends Component {
 			isActive: this.props.isActive,
 			roleId: this.props.roleId,
 			employeeId: '',
-			employeeData: []
+			employeeData: [],
+			shiftPlanData: [],
+			selectedEmployeesForTheShiftPlan: [],
+			employees: this.props.employees
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 
 	componentDidMount() {
+		//TODO filter only employee with tha appropriate role
 		axios.get(baseUrlForTheBackend + '/employees')
 			.then(({data}) => {
 				this.setState({
 					employeeData: data
+				});
+				console.log(data);
+			})
+			.catch(function (error) {
+				console.log('catch');
+				console.log(error);
+			});
+
+		axios.get(baseUrlForTheBackend + '/shiftplan/' + this.props.shiftPlanId)
+			.then(({data}) => {
+				this.setState({
+					selectedEmployeesForTheShiftPlan: data
 				});
 				console.log(data);
 			})
@@ -47,20 +63,30 @@ class ShiftPlanAddEmployee extends Component {
 
 	handleSubmit(event) {
 		const message = '#addEmployeeToShiftPlanMessage' + this.props.shiftPlanId;
-
+		const tempShiftPlanId = this.props.shiftPlanId;
 		axios.put(baseUrlForTheBackend + '/shiftplan/' + this.props.shiftPlanId + '/employee/' + this.state.employeeId)
 			.then(function (response) {
 				console.log('then');
 				console.log(response);
-				$("#createShiftPlanMessage").empty().html("Mitarbeiter wurde hinzugefügt");
+				$(message).empty().html("Mitarbeiter wurde hinzugefügt");
+
+				axios.get(baseUrlForTheBackend + '/shiftplan/' + tempShiftPlanId)
+					.then(({data}) => {
+						this.setState({
+							employees: data.employees
+						});
+						console.log(data);
+					})
+					.catch(function (error) {
+						console.log('catch');
+						console.log(error);
+					});
 			})
 			.catch(function (error) {
 				console.log('catch');
 				console.log(error);
-				$(message).empty().text("Fehler");
+				$(message).empty().text("Fehler:");
 			});
-
-
 		event.preventDefault();
 	}
 
@@ -68,9 +94,10 @@ class ShiftPlanAddEmployee extends Component {
 		const employeeList = this.state.employeeData.map((el, index) => (
 			<option key={index} value={el.stid}>{el.firstName} {el.lastName}</option>
 		));
-
+		const employeeListSelectedForTheShiftPlan = this.state.employees.map((el, index) => (
+			<div key={index} value={el.stid}>{el.firstName} {el.lastName}</div>
+		));
 		return (
-
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#addEmployeeToShiftPlan' + this.props.shiftPlanId}>
@@ -94,6 +121,7 @@ class ShiftPlanAddEmployee extends Component {
 									<div>
 										<div>Schicht</div>
 										<table>
+											<tbody>
 											<tr>
 												<td>Name</td>
 												<td>{this.props.shiftName}</td>
@@ -114,6 +142,7 @@ class ShiftPlanAddEmployee extends Component {
 												<td>Ist Akitv</td>
 												<td>{this.props.isActive ? 'Ja' : 'Nein'}</td>
 											</tr>
+											</tbody>
 										</table>
 									</div>
 
@@ -128,6 +157,7 @@ class ShiftPlanAddEmployee extends Component {
 											{employeeList}
 										</select>
 									</div>
+									{employeeListSelectedForTheShiftPlan}
 									<div id={'addEmployeeToShiftPlanMessage' + this.props.shiftPlanId}/>
 									<div className="modal-footer">
 										<button type="button"
@@ -155,8 +185,6 @@ class ShiftPlanAddEmployee extends Component {
 					</div>
 				</div>
 			</div>
-
-
 		)
 	}
 }

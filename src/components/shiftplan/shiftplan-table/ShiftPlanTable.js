@@ -27,6 +27,7 @@ class ShiftPlanTable extends Component {
 	}
 
 	render() {
+		//TODO add a "Tab" that filters the diffrent roles. or Dropdown?
 		const listItems = this.state.shiftPlanData.map((el, index) => (
 			<tr key={index}>
 				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.shift.name}</td>
@@ -44,6 +45,7 @@ class ShiftPlanTable extends Component {
 						weekNumber={el.weekNumber}
 						year={el.year}
 						isActive={el.isActive}
+						employees={el.employees}
 					/>
 				</td>
 			</tr>

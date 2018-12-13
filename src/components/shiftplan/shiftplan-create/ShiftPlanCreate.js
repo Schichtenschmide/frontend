@@ -67,7 +67,7 @@ class ShiftPlanCreate extends Component {
 				.catch(function (error) {
 					console.log('catch');
 					console.log(error);
-					$("#createShiftPlanMessage").empty().html("Fehler: Sind alles Zahlen?");
+					$("#createShiftPlanMessage").empty().html("Fehler: <br/>Sind alles Zahlen? <br/> Gibt es diese Schicht in dieser Wohche und Jahr bereits?");
 				});
 		}
 

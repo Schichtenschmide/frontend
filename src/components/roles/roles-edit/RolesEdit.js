@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
+import icons from "glyphicons";
+
 
 class RolesEdit extends Component {
 	roleId;
@@ -10,10 +12,9 @@ class RolesEdit extends Component {
 		super(props);
 
 		this.state = {
-			roleData: [],
-			username: '',
 			roleId: this.props.roleId,
-			roleName: this.props.roleName
+			roleName: this.props.roleName,
+			roleIsActive: this.props.roleIsActive
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,17 +30,11 @@ class RolesEdit extends Component {
 		});
 	}
 
-	componentDidMount() {
-
-	}
-
-
 	handleSubmit(event) {
 		const roleId = this.props.roleId;
-		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId, {
+		axios.put(baseUrlForTheBackend + '/role/' + this.state.roleId, {
 			"name": this.state.roleName,
-			"isActive": this.props.roleActive
-
+			"isActive": this.state.roleIsActive
 		})
 			.then(function (response) {
 				console.log("then");
@@ -51,8 +46,8 @@ class RolesEdit extends Component {
 				console.log("catch");
 				console.log(error);
 				$("#message" + roleId).html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-
 			});
+
 		console.log(this.state.roleName);
 		event.preventDefault();
 	}
@@ -63,10 +58,10 @@ class RolesEdit extends Component {
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
-						data-target={'#editRoleNameDialog' + this.state.roleId}>
-					bearbeiten
+						data-target={'#editRoleNameDialog' + this.props.roleId}>
+					{icons.pencil}
 				</button>
-				<div className="modal fade" id={'editRoleNameDialog' + this.state.roleId} tabIndex="-1" role="dialog"
+				<div className="modal fade" id={'editRoleNameDialog' + this.props.roleId} tabIndex="-1" role="dialog"
 					 aria-labelledby="createShiftDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -98,7 +93,8 @@ class RolesEdit extends Component {
 											className="form-control"
 										/>
 									</label>
-									<div id={'message' + this.props.roleId}/>
+									<div className="alert alert-primary" role="alert"
+										 id={'message' + this.props.roleId}/>
 									< div className="modal-footer">
 										<button type="button" onClick={(e) => {
 											this.handleSubmit(e)

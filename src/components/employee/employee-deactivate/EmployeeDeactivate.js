@@ -26,12 +26,13 @@ class EmployeeDeactivate extends Component {
 	}
 
 	handleSubmit(event) {
-		const id = this.props.id;
-		axios.put(baseUrlForTheBackend +'/roles/'+ this.props.roleId + '/employee/' + this.props.id,
+		const id = this.props.employeeId;
+		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
 			{
 				'firstName': this.props.firstName,
 				'lastName': this.props.lastName,
-				'isActive': this.state.isEmployeeActive
+				'isActive': this.state.isEmployeeActive,
+				'roleId':this.props.roleId
 			})
 			.then(function (response) {
 				console.log(response);
@@ -50,10 +51,10 @@ class EmployeeDeactivate extends Component {
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
-						data-target={'#deactivateEmployeeDialog' + this.props.id}>
+						data-target={'#deactivateEmployeeDialog' + this.props.employeeId}>
 					{this.props.buttonTitle}
 				</button>
-				<div className="modal fade" id={'deactivateEmployeeDialog' + this.props.id} tabIndex="-1" role="dialog"
+				<div className="modal fade" id={'deactivateEmployeeDialog' + this.props.employeeId} tabIndex="-1" role="dialog"
 					 aria-labelledby="deleteEmployeeDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -78,7 +79,7 @@ class EmployeeDeactivate extends Component {
 										Die Person ist {this.state.isEmployeeActive === true ? "aktiv" : "deaktiviert"}
 									</label>
 								</div>
-								<div id={'message' + this.props.id}/>
+								<div id={'message' + this.props.employeeId}/>
 								< div className="modal-footer">
 									<button type="button" onClick={this.handleSubmit} className="btn btn-primary">
 										Speichern und Schliessen

@@ -50,11 +50,12 @@ class ShiftPlanCreate extends Component {
 		if (this.state.shiftId === '' || this.state.weekNumber === '' || this.state.year === '')
 			$("#createShiftPlanMessage").empty().html("Bitte wählen Sie eine Schicht, eine Wochennummer und Jahr");
 		else {
-			axios.post(baseUrlForTheBackend + '/shift/' + this.state.shiftId + '/shiftplans',
+			axios.post(baseUrlForTheBackend + '/shiftplan',
 				{
 					weekNumber: this.state.weekNumber,
 					year: this.state.year,
-					isActive: this.state.isActive
+					isActive: this.state.isActive,
+					shiftId: this.state.shiftId
 				})
 				.then(function (response) {
 					console.log('then');

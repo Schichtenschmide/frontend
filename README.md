@@ -61,6 +61,11 @@ Change the Host / URL that is defined in manifest.yml file according to your nee
 export const baseUrlForTheBackend = 'https://hello-world-jpa-ch-p.scapp.io';
 //export const baseUrlForTheBackend = 'http://localhost:8080';
 ```
+
+### Run
+```
+npm run build
+```
 ### Push
 Login to Cloudfoundry --> <br/>
 `cf login -a api.lyra-836.appcloud.swisscom.com -u user@example.com -p MySecretPassword` <br/>

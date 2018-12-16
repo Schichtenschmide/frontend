@@ -13,7 +13,7 @@ class RolesDeactivate extends Component {
 			roleData: [],
 			roleID: this.props.roleId,
 			roleName: this.props.roleName,
-			roleActive: this.props.roleActive
+			roleIsActive: this.props.roleIsActive
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -30,10 +30,10 @@ class RolesDeactivate extends Component {
 	}
 
 	handleSubmit(event, roleID) {
-		axios.put(baseUrlForTheBackend + '/roles/' + this.props.roleId,
+		axios.put(baseUrlForTheBackend + '/role/' + this.props.roleId,
 			{
 				"name": this.state.roleName,
-				"isActive": this.state.roleActive
+				"isActive": this.state.roleIsActive
 			})
 			.then(function (response) {
 				console.log("then");
@@ -83,13 +83,13 @@ class RolesDeactivate extends Component {
 										<label className="form-check-label" id="roleActive">
 											<input
 												htmlFor="roleActive"
-												name={'roleActive'}
-												defaultChecked={this.state.roleActive}
+												name={'roleIsActive'}
+												defaultChecked={this.state.roleIsActive}
 												type="checkbox"
 												className="form-check-input"
 												onClick={this.handleInputChange}
 											/>
-											Die Rolle ist {this.state.roleActive === true ? "aktiv" : "deaktiviert"}
+											Die Rolle ist {this.state.roleIsActive === true ? "aktiv" : "deaktiviert"}
 										</label>
 									</div>
 									<div id={'message' + this.props.roleId}> </div>

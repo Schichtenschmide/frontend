@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from "jquery";
+import icons from "glyphicons";
 
 class EmployeeEdit extends Component {
 
@@ -48,18 +49,21 @@ class EmployeeEdit extends Component {
 
 	handleSubmit(event) {
 		const id = this.props.employeeId;
-		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId + '/employee/' + this.props.employeeId,
+		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
 			{
 				"firstName": this.state.firstName,
 				"lastName": this.state.lastName,
 				"employmentRate": this.state.employmentRate,
-				"isActive": this.state.isActive
+				"isActive": this.state.isActive,
+				"roleId": this.state.roleId
 			})
 			.then(function (response) {
 				console.log('then');
 				console.log(response);
 				$("#message" + id).empty().html("Mitarbeiter wurde ge&auml;ndert");
-				setTimeout(function() { $('#editEmployeeDialog' + id).modal('hide'); }, 2000);
+				setTimeout(function () {
+					$('#editEmployeeDialog' + id).modal('hide');
+				}, 2000);
 			})
 			.catch(function (error) {
 				console.log('catch');
@@ -71,15 +75,31 @@ class EmployeeEdit extends Component {
 
 	render() {
 		const roleList = this.state.roleData.map((el, index) => (
-			<option selected={this.props.roleId === el.stid ? 'true' : ''} key={index}
-					value={el.stid}>{el.name}</option>
+			<option
+				key={index}
+				value={el.stid}
+			>
+				{el.name}
+			</option>
+		));
+		let percent = [];
+		for(let i=20;i<=100;i+=20){
+			percent.push({value: i, percent:i})
+		}
+		const percentList = percent.map((el, index) => (
+			<option
+				key={index}
+				value={el.value}
+			>
+				{el.percent}
+			</option>
 		));
 
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#editEmployeeDialog' + this.props.employeeId}>
-					bearbeiten
+					{icons.pencil}
 				</button>
 				<div className="modal fade" id={'editEmployeeDialog' + this.props.employeeId} tabIndex="-1"
 					 role="dialog"
@@ -101,17 +121,26 @@ class EmployeeEdit extends Component {
 									<label htmlFor="lastName">Nachname</label>
 									<input name={'lastName'} type="text" id="lastName" value={this.state.lastName}
 										   onChange={this.handleInputChange} className="form-control"/>
+
+
 									<label htmlFor="employmentRate">Stellenprozenzsatz</label>
-									<input name={'employmentRate'} type="number" id="employmentRate"
-										   value={this.state.employmentRate} onChange={this.handleInputChange}
-										   className="form-control"/>
+									<select className="form-control"
+											name={'employmentRate'}
+											id="employmentRate"
+											value={this.state.employmentRate}
+											onChange={this.handleInputChange}
+									>
+										{percentList}
+									</select>
 									<div className="form-group">
 										<label htmlFor="role">Rolle</label>
 										<select className="form-control"
 												name={'roleId'}
 												id="role"
 												onChange={this.handleInputChange}
+												value={this.props.roleId}
 										>
+											<option/>
 											{roleList}
 										</select>
 									</div>

@@ -57,20 +57,21 @@ class ShiftCreate extends Component {
 		if (this.state.roleId === '') {
 			$("#message").empty().html("Bitte wählen Sie eine Rolle");
 		} else {
-			axios.post(baseUrlForTheBackend + '/role/' + this.state.roleId + '/shifts', {
-				"name": this.state.name,
-				"startTime": this.state.startTime,
-				"endTime": this.state.endTime,
-				"shorthand": this.state.shorthand,
-				"employeeCount": this.state.employeeCount,
-				"isActive": this.state.isActive,
-				"isMonday": this.state.isMonday,
-				"isTuesday": this.state.isTuesday,
-				"isWednesday": this.state.isWednesday,
-				"isThursday": this.state.isThursday,
-				"isFriday": this.state.isFriday,
-				"isSaturday": this.state.isSaturday,
-				"isSunday": this.state.isSunday
+			axios.post(baseUrlForTheBackend + '/shift', {
+				name: this.state.name,
+				startTime: this.state.startTime,
+				endTime: this.state.endTime,
+				shorthand: this.state.shorthand,
+				employeeCount: this.state.employeeCount,
+				isActive: this.state.isActive,
+				isMonday: this.state.isMonday,
+				isTuesday: this.state.isTuesday,
+				isWednesday: this.state.isWednesday,
+				isThursday: this.state.isThursday,
+				isFriday: this.state.isFriday,
+				isSaturday: this.state.isSaturday,
+				isSunday: this.state.isSunday,
+				roleId: this.state.roleId
 			})
 				.then(function (response) {
 					console.log('then');
@@ -94,6 +95,23 @@ class ShiftCreate extends Component {
 	render() {
 		const roleList = this.state.roleData.map((el, index) => (
 			<option key={index} value={el.stid}>{el.name}</option>
+		));
+
+		let time = [];
+		for (let i = 0; i <= 24; i++) {
+			if (i < 10) {
+				time.push({value: i, time: '0' + i + ':00'})
+			} else {
+				time.push({value: i, time: i + ':00'})
+			}
+		}
+		const timeList = time.map((el, index) => (
+			<option
+				key={index}
+				value={el.value}
+			>
+				{el.time}
+			</option>
 		));
 
 		return (
@@ -120,15 +138,27 @@ class ShiftCreate extends Component {
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
-											<input name={'startTime'} type="number" step={1} id="startTime"
-												   value={this.state.startTime} onChange={this.handleInputChange}
-												   className="form-control"/>
+											<select name={'startTime'}
+													id="startTime"
+													value={this.state.startTime}
+													onChange={this.handleInputChange}
+													className="form-control"
+											>
+												<option/>
+												{timeList}
+											</select>
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
-											<input name={'endTime'} type="number" step={1} id="endTime"
-												   value={this.state.endTime}
-												   onChange={this.handleInputChange} className="form-control"/>
+											<select name={'endTime'}
+													id="endTime"
+													value={this.state.endTime}
+													onChange={this.handleInputChange}
+													className="form-control"
+											>
+												<option/>
+												{timeList}
+											</select>
 										</div>
 									</div>
 									<label htmlFor="shorthand">Shorthand</label>

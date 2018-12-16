@@ -64,7 +64,7 @@ class ShiftPlanAddEmployee extends Component {
 	handleSubmit(event) {
 		const message = '#addEmployeeToShiftPlanMessage' + this.props.shiftPlanId;
 		const tempShiftPlanId = this.props.shiftPlanId;
-		axios.put(baseUrlForTheBackend + '/shiftplan/' + this.props.shiftPlanId + '/employee/' + this.state.employeeId)
+		axios.put(baseUrlForTheBackend + '/shiftplan/' + this.props.shiftPlanId + '/addEmployee/' + this.state.employeeId)
 			.then(function (response) {
 				console.log('then');
 				console.log(response);
@@ -101,7 +101,7 @@ class ShiftPlanAddEmployee extends Component {
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#addEmployeeToShiftPlan' + this.props.shiftPlanId}>
-					Mitarbeiter hinzufügen
+					Mitarbeiter hinzufügen / anzeigen
 				</button>
 				<div className="modal fade" id={'addEmployeeToShiftPlan' + this.props.shiftPlanId} tabIndex="-1"
 					 role="dialog"

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {baseUrlForTheBackend} from "../../../constants";
 import axios from "axios";
 import $ from "jquery";
+import icons from "glyphicons";
 
 
 class ShiftEdit extends Component {
@@ -15,7 +16,7 @@ class ShiftEdit extends Component {
 			endTime: this.props.endTime,
 			shorthand: this.props.shorthand,
 			employeeCount: this.props.employeeCount,
-			isActive: this.props.isActive,
+			shiftIsActive: this.props.shiftIsActive,
 			isMonday: this.props.isMonday,
 			isTuesday: this.props.isTuesday,
 			isWednesday: this.props.isWednesday,
@@ -59,25 +60,26 @@ class ShiftEdit extends Component {
 		if (this.state.roleId === '') {
 			$("#message" + id).empty().html("Bitte wählen Sie eine Rolle");
 		} else {
-			axios.put(baseUrlForTheBackend + '/role/' + this.state.roleId + '/shift/' + this.state.shiftId, {
+			axios.put(baseUrlForTheBackend + '/shift/' + this.state.shiftId, {
 				"name": this.state.name,
 				"startTime": this.state.startTime,
 				"endTime": this.state.endTime,
 				"shorthand": this.state.shorthand,
 				"employeeCount": this.state.employeeCount,
-				"isActive": this.state.isActive,
+				"isActive": this.state.shiftIsActive,
 				"isMonday": this.state.isMonday,
 				"isTuesday": this.state.isTuesday,
 				"isWednesday": this.state.isWednesday,
 				"isThursday": this.state.isThursday,
 				"isFriday": this.state.isFriday,
 				"isSaturday": this.state.isSaturday,
-				"isSunday": this.state.isSunday
+				"isSunday": this.state.isSunday,
+				"roleId":this.state.roleId
 			})
 				.then(function (response) {
 					console.log('then');
 					console.log(response);
-					$("#message" + id).empty().html("&Auml;nderung wurde gespeichert");
+					$("#message" + id).empty();
 					$('#editShiftDialog' + id).modal('hide');
 				})
 				.catch(function (error) {
@@ -91,15 +93,35 @@ class ShiftEdit extends Component {
 
 	render() {
 		const roleList = this.state.roleData.map((el, index) => (
-			<option selected={this.props.roleId === el.stid ? 'true' : ''} key={index}
-					value={el.stid}>{el.name}</option>
+			<option
+				key={index}
+				value={el.stid}
+			>
+				{el.name}
+			</option>
+		));
+		let time = [];
+		for (let i = 0; i <= 24; i++) {
+			if (i < 10) {
+				time.push({value: i, time: '0' + i + ':00'})
+			} else {
+				time.push({value: i, time: i + ':00'})
+			}
+		}
+		const timeList = time.map((el, index) => (
+			<option
+				key={index}
+				value={el.value}
+			>
+				{el.time}
+			</option>
 		));
 
 		return (
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#editShiftDialog' + this.props.shiftId}>
-					bearbeiten
+					{icons.pencil}
 				</button>
 
 				<div className="modal fade" id={'editShiftDialog' + this.props.shiftId} tabIndex="-1" role="dialog"
@@ -120,15 +142,27 @@ class ShiftEdit extends Component {
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
-											<input name={'startTime'} type="number" step={1} id="startTime"
-												   value={this.state.startTime} onChange={this.handleInputChange}
-												   className="form-control"/>
+											<select name={'startTime'}
+													id="startTime"
+													value={this.state.startTime}
+													onChange={this.handleInputChange}
+													className="form-control"
+											>
+												<option/>
+												{timeList}
+											</select>
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
-											<input name={'endTime'} type="number" step={1} id="endTime"
-												   value={this.state.endTime}
-												   onChange={this.handleInputChange} className="form-control"/>
+											<select name={'endTime'}
+													id="endTime"
+													value={this.state.endTime}
+													onChange={this.handleInputChange}
+													className="form-control"
+											>
+												<option/>
+												{timeList}
+											</select>
 										</div>
 									</div>
 									<label htmlFor="shorthand">Shorthand</label>
@@ -222,11 +256,11 @@ class ShiftEdit extends Component {
 											name={'isSunday'}
 											className="form-check-input"
 											type="checkbox"
-											id="sunday"
+											htmlFor="sunday"
 											defaultChecked={this.state.isSunday}
 											onClick={this.handleInputChange}
 										/>
-										<label className="form-check-label" htmlFor="sunday">
+										<label className="form-check-label" id="sunday">
 											Sonntag
 										</label>
 									</div>
@@ -240,6 +274,7 @@ class ShiftEdit extends Component {
 												name={'roleId'}
 												id="role"
 												onChange={this.handleInputChange}
+												value={this.props.roleId}
 										>
 											{roleList}
 										</select>
@@ -248,8 +283,8 @@ class ShiftEdit extends Component {
 										<label className="form-check-label" id="shiftActive">
 											<input
 												htmlFor="shiftActive"
-												name={'isActive'}
-												defaultChecked={this.state.roleActive}
+												name={'shiftIsActive'}
+												defaultChecked={this.state.shiftIsActive}
 												type="checkbox"
 												className="form-check-input"
 												onClick={this.handleInputChange}

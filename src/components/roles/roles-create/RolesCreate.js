@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
+import SimpleReactValidator from 'simple-react-validator';
 
 
 class RolesCreate extends Component {
@@ -9,10 +10,12 @@ class RolesCreate extends Component {
 		super(props);
 
 		this.state = {
-			roleName: ''
+			roleName: '',
+			roleIsActive: ''
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.validator = new SimpleReactValidator();
 	}
 
 	handleInputChange(event) {
@@ -26,26 +29,32 @@ class RolesCreate extends Component {
 	}
 
 	handleSubmit(event, isSaveAndCloseEvent) {
-		axios.post(baseUrlForTheBackend + '/roles', {
-			"name": this.state.roleName,
-			"isActive": "true"
-		})
-			.then(function (response) {
-				console.log('then');
-				console.log(response);
-				$("#message").empty().html("Rolle wurde hinzugef&uuml;gt");
-				if (isSaveAndCloseEvent)
-					$('#createUserDialog').modal('hide');
+		if (!this.validator.allValid()) {
+			this.validator.showMessages();
+			// rerender to show messages for the first time
+			this.forceUpdate();
+		} else {
+			axios.post(baseUrlForTheBackend + '/roles', {
+				"name": this.state.roleName,
+				"isActive": this.state.roleIsActive
 			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
+				.then(function (response) {
+					console.log('then');
+					console.log(response);
+					$("#message").empty().html("Rolle wurde hinzugef&uuml;gt");
+					if (isSaveAndCloseEvent)
+						$('#createUserDialog').modal('hide');
+				})
+				.catch(function (error) {
+					console.log('catch');
+					console.log(error);
+					if (isSaveAndCloseEvent)
+						$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/>Ist der Name schon bereits vorhanden?");
+					else
+						$("#message").empty().html("Fehler:<br/>Ist der Name schon bereits vorhanden?");
+				});
 
-				if (isSaveAndCloseEvent)
-					$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-				else
-					$("#message").empty().html("Fehler: Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-			});
+		}
 		event.preventDefault();
 	}
 
@@ -66,7 +75,7 @@ class RolesCreate extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<form onSubmit={this.handleSubmit}>
+								<form>
 									<label>
 										Rollenname<br/>
 										<input
@@ -76,6 +85,16 @@ class RolesCreate extends Component {
 											onChange={this.handleInputChange}
 										/>
 									</label>
+									{this.validator.message('text', this.state.roleName, 'required|min:3|max:30')}
+									<div className="form-check">
+										<input name={'roleIsActive'}
+											   type="checkbox"
+											   id="isActive"
+											   defaultChecked={false}
+											   onChange={this.handleInputChange}
+										/>
+										<label htmlFor="isActive">Aktive Rolle</label>
+									</div>
 									<div id="message"/>
 									< div className="modal-footer">
 										<button type="button"

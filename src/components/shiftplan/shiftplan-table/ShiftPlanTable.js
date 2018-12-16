@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import ShiftPlanAddEmployee from "../shiftplan-addEmployee/shiftplanAddEmployee";
+import icons from 'glyphicons';
+import ShiftPlanEdit from "../shiftplan-edit/ShiftPlanEdit";
 
 class ShiftPlanTable extends Component {
 
@@ -30,11 +32,12 @@ class ShiftPlanTable extends Component {
 		//TODO add a "Tab" that filters the diffrent roles. or Dropdown?
 		const listItems = this.state.shiftPlanData.map((el, index) => (
 			<tr key={index}>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.shift.name}</td>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.shift.startTime}</td>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.shift.endTime}</td>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.weekNumber}</td>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.year}</td>
+				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td>{el.shift.name}</td>
+				<td>{el.shift.startTime < 10 ? '0' + el.shift.startTime + ':00' : el.shift.startTime + ':00'}</td>
+				<td>{el.shift.endTime < 10 ? '0' + el.shift.endTime + ':00' : el.shift.endTime + ':00'}</td>
+				<td>{el.weekNumber}</td>
+				<td>{el.year}</td>
 				<td>
 					<ShiftPlanAddEmployee
 						shiftName={el.shift.name}
@@ -48,6 +51,7 @@ class ShiftPlanTable extends Component {
 						employees={el.employees}
 					/>
 				</td>
+				<td><ShiftPlanEdit/></td>
 			</tr>
 		));
 
@@ -60,11 +64,13 @@ class ShiftPlanTable extends Component {
 			<table className="table">
 				<thead className="thead-light">
 				<tr>
+					<th scope="col">Aktiv</th>
 					<th scope="col">Name</th>
 					<th scope="col">Start</th>
 					<th scope="col">Ende</th>
 					<th scope="col">Wochennummer</th>
 					<th scope="col">Jahr</th>
+					<th scope="col"/>
 					<th scope="col"/>
 				</tr>
 				</thead>

@@ -7,4 +7,4 @@ applications:
   host: schichtenschmiede-juventus
 
   env:
-    NODE_ENV: development
+    NODE_ENV: production

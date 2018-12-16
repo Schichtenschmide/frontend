@@ -50,13 +50,14 @@ class EmployeeCreateDialog extends Component {
 		if (this.state.roleId === '') {
 			$('#message').empty().html("Bittw wählen Sie eine Rolle");
 		} else {
-			console.log(baseUrlForTheBackend + '/roles/' + this.state.roleId + '/employee');
-			axios.post(baseUrlForTheBackend + '/roles/' + this.state.roleId + '/employee',
+			console.log(baseUrlForTheBackend + '/employee');
+			axios.post(baseUrlForTheBackend + '/employee',
 				{
 					"firstName": this.state.firstName,
 					"lastName": this.state.lastName,
 					"employmentRate": this.state.employmentRate,
-					"isActive": this.state.isActive
+					"isActive": this.state.isActive,
+					"roleId": this.state.roleId
 				})
 				.then(function (response) {
 					console.log('then');
@@ -80,6 +81,18 @@ class EmployeeCreateDialog extends Component {
 	render() {
 		const roleList = this.state.roleData.map((el, index) => (
 			<option key={index} value={el.stid}>{el.name}</option>
+		));
+		let percent = [];
+		for (let i = 20; i <= 100; i += 20) {
+			percent.push({value: i, percent: i})
+		}
+		const percentList = percent.map((el, index) => (
+			<option
+				key={index}
+				value={el.value}
+			>
+				{el.percent}
+			</option>
 		));
 
 		return (
@@ -106,11 +119,16 @@ class EmployeeCreateDialog extends Component {
 									<label htmlFor="lastName">Nachname</label>
 									<input name={'lastName'} type="text" id="lastName" value={this.state.lastName}
 										   onChange={this.handleInputChange} className="form-control"/>
-									<label htmlFor="employmentRate">Stellenprozenzsatz</label>
-									<input name={'employmentRate'} type="number" id="employmentRate"
-										   value={this.state.employmentRate} onChange={this.handleInputChange}
-										   className="form-control"/>
-
+									<label htmlfor="employmentRate">Stellenprozenzsatz</label>
+									<select className="form-control"
+											name={'employmentRate'}
+											id="employmentRate"
+											value={this.state.employmentRate}
+											onChange={this.handleInputChange}
+									>
+										<option/>
+										{percentList}
+									</select>
 									<div className="form-group">
 										<label htmlFor="role">Rolle</label>
 										<select className="form-control"
@@ -122,9 +140,17 @@ class EmployeeCreateDialog extends Component {
 											{roleList}
 										</select>
 									</div>
-									<input name={'isActive'} type="checkbox" id="isActive"
-										   value={this.state.isActive} onChange={this.handleInputChange}/>
-									<label htmlFor="isActive">Aktiver Mitarbeiter</label>
+									<div className="form-check">
+										<label className="form-check-label" id="isActive">
+											<input name={'isActive'}
+												   type="checkbox"
+												   htmlFor="isActive"
+												   value={this.state.isActive}
+												   onChange={this.handleInputChange}
+											/>
+											Aktiver Mitarbeiter
+										</label>
+									</div>
 									<div id={'message'}/>
 									< div className="modal-footer">
 										<button type="button"

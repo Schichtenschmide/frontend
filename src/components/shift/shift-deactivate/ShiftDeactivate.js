@@ -9,7 +9,7 @@ class ShiftDeactivate extends Component {
 		super(props);
 
 		this.state = {
-			isActive: this.props.isActive
+			shiftIsActive: this.props.shiftIsActive
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,20 +27,21 @@ class ShiftDeactivate extends Component {
 
 	handleSubmit(event) {
 		const id = this.props.shiftId;
-			axios.put(baseUrlForTheBackend + '/role/' + this.props.roleId + '/shift/' + this.props.shiftId, {
+			axios.put(baseUrlForTheBackend + '/shift/' + this.props.shiftId, {
 				"name": this.props.name,
 				"startTime": this.props.startTime,
 				"endTime": this.props.endTime,
 				"shorthand": this.props.shorthand,
 				"employeeCount": this.props.employeeCount,
-				"isActive": this.state.isActive,
+				"isActive": this.state.shiftIsActive,
 				"isMonday": this.props.isMonday,
 				"isTuesday": this.props.isTuesday,
 				"isWednesday": this.props.isWednesday,
 				"isThursday": this.props.isThursday,
 				"isFriday": this.props.isFriday,
 				"isSaturday": this.props.isSaturday,
-				"isSunday": this.props.isSunday
+				"isSunday": this.props.isSunday,
+				"roleId":this.props.roleId
 			})
 				.then(function (response) {
 					console.log('then');
@@ -62,7 +63,7 @@ class ShiftDeactivate extends Component {
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#deactivateShiftDialog' + this.props.shiftId}>
-					 {this.props.isActive === true ? 'deaktivieren' : 'aktivieren'}
+					 {this.props.shiftIsActive === true ? 'deaktivieren' : 'aktivieren'}
 				</button>
 
 				<div className="modal fade" id={'deactivateShiftDialog' + this.props.shiftId} tabIndex="-1" role="dialog"
@@ -83,13 +84,13 @@ class ShiftDeactivate extends Component {
 										<label className="form-check-label" id="shiftActive">
 											<input
 												htmlFor="shiftActive"
-												name={'isActive'}
-												defaultChecked={this.state.roleActive}
+												name={'shiftIsActive'}
+												defaultChecked={this.state.shiftIsActive}
 												type="checkbox"
 												className="form-check-input"
 												onClick={this.handleInputChange}
 											/>
-											Die Schicht ist {this.state.isActive === true ? "aktiv" : "deaktiviert"}
+											Die Schicht ist {this.state.shiftIsActive === true ? "aktiv" : "deaktiviert"}
 										</label>
 									</div>
 

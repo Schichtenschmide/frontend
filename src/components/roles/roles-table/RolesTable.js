@@ -3,6 +3,7 @@ import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import RolesEdit from "../roles-edit/RolesEdit";
 import RolesDeactivate from "../roles-deactivate/RolesDeactivate";
+import icons from "glyphicons";
 
 
 class RolesTable extends Component {
@@ -24,50 +25,49 @@ class RolesTable extends Component {
 				});
 			})
 			.catch((err) => {
+				console.log(err);
 			})
 	}
 
+	//
 	render() {
-
 		const listItems = this.state.roleData.map((el, index) =>
 			<tr key={index}>
-				<td><span style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.name}</span></td>
+				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.name} </td>
 				<td>
-					<span id="edit" className="glyphicon glyphicon-pencil">
-						<RolesEdit
-							roleName={el.name}
-							roleId={el.stid}
-							roleActive={el.isActive}
-						/>
-					</span>
+					<RolesEdit
+						roleName={el.name}
+						roleId={el.stid}
+						roleIsActive={el.isActive}
+					/>
 				</td>
 				<td>
-					<span id="delete" className="glyphicon glyphicon-trash">
-						<RolesDeactivate
-							roleName={el.name}
-							roleId={el.stid}
-							roleActive={el.isActive}
-							title={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
-						/>
-					</span>
+					<RolesDeactivate
+						roleName={el.name}
+						roleId={el.stid}
+						roleIsActive={el.isActive}
+						title={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
+					/>
 				</td>
 			</tr>
 		);
-		console.log(this.state.roleData);
-		return <table className="table">
-			<thead className="thead-light">
-			<tr>
-				<th scope="col">Rolle</th>
-				<th scope="col">&nbsp;</th>
-				<th scope="col">&nbsp;</th>
-			</tr>
-			</thead>
-			<tbody>
-			{listItems}
-			</tbody>
-		</table>
 
-
+		return (
+			<table className="table">
+				<thead className="thead-light">
+				<tr>
+					<th scope="col">Aktiv</th>
+					<th scope="col">Rolle</th>
+					<th scope="col"/>
+					<th scope="col"/>
+				</tr>
+				</thead>
+				<tbody>
+				{listItems}
+				</tbody>
+			</table>
+		)
 	}
 }
 

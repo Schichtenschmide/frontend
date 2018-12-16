@@ -3,6 +3,7 @@ import EmployeeDeactivate from "../employee-deactivate/EmployeeDeactivate";
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import EmployeeEdit from "../employee-edit/EmployeeEdit";
+import icons from "glyphicons";
 
 class EmployeeTable extends Component {
 	constructor(props) {
@@ -29,8 +30,9 @@ class EmployeeTable extends Component {
 		const listItems = this.state.employeeData.map((el, index) => (
 
 			<tr key={index}>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.firstName}</td>
-				<td style={el.isActive === false ? ({textDecoration: 'line-through'}) : ({})}>{el.lastName}</td>
+				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td  >{el.firstName}</td>
+				<td  >{el.lastName}</td>
 				<td>{el.employmentRate} </td>
 				<td>{el.role.name}</td>
 				<td>
@@ -47,7 +49,7 @@ class EmployeeTable extends Component {
 				</td>
 				<td>
 					<span id="delete" className="glyphicon glyphicon-trash">
-						<EmployeeDeactivate id={el.stid}
+						<EmployeeDeactivate employeeId={el.stid}
 											firstName={el.firstName}
 											lastName={el.lastName}
 											isEmployeeActive={el.isActive}
@@ -64,6 +66,7 @@ class EmployeeTable extends Component {
 			<table className="table">
 				<thead className="thead-light">
 				<tr>
+					<th scope="col">Aktiv</th>
 					<th scope="col">Vorname</th>
 					<th scope="col">Nachname</th>
 					<th scope="col">Stellenprozent</th>

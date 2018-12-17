@@ -1,5 +1,5 @@
 # Frontend
-This is the frontend for the Schichtenschmiede project
+This is the frontend for the Schichtenschmiede project<br/>
 
 # Notes for NodeJS
 
@@ -48,14 +48,10 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Deployment
+# Deployment to Cloud Foundry
 
-### Prepare push to Cloud Foundry
+### How to prepare the code 
 
-Change the Host / URL that is defined in manifest.yml file according to your needs
-```
- host: schichtenschmiede-juventus //becomes --> https://schichtenschmiede-juventus.scapp.io
- ```
  Change the baseUrlForTheBackend in src/constants.js to your production Backend URL
 ```
 export const baseUrlForTheBackend = 'https://hello-world-jpa-ch-p.scapp.io';
@@ -63,26 +59,31 @@ export const baseUrlForTheBackend = 'https://hello-world-jpa-ch-p.scapp.io';
 ```
 
 ### Run
+In the root folder of the project, please run the following command in the terminal:
 ```
 npm run build
 ```
+and change to the build folder
+```
+cd build
+```
 ### Push
 Login to Cloudfoundry --> <br/>
-`cf login -a api.lyra-836.appcloud.swisscom.com -u user@example.com -p MySecretPassword` <br/>
+`cf login -a api.lyra-836.appcloud.swisscom.com -u user@example.com` <br/>
 chose your space --> <br/>
-`cf push`
+*Make sure that you are in the frontend/build/ folder*<br/> 
+--> Make sure that your url is matched with the backend CORS guidelines for allowed origins<br/>
+`cf push schichtenschmiede-juventus -b staticfile_buildpack` <br/>
+if the push was successful you now can go visit:<br/> [schichtenschmiede-juventus.scapp.io](https://schichtenschmiede-juventus.scapp.io)
 
  # Sonar
-   
-   Das Projekt nutzt die SonarCloud um den Code zu überprüfen.  
-   [Sonar Schichtenschmiede](https://sonarcloud.io/organizations/schichtenschmiede/projects)
+ This project uses the SonarCloud to validate the code. Please visit the link below to see the analysis<br/>
+   [Sonar Schichtenschmiede](https://sonarcloud.io/organizations/schichtenschmiede/projects)  <br/>
    ![quality gate](https://sonarcloud.io/api/project_badges/measure?project=Schichtenschmiede_backend&metric=alert_status)
-   ## install sonar-client
-   https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner
+   1. Install the sonar-client  
+   [How to install SonarQube Scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner)
    
-   ## run to push to the sonar cloud
-   ´´´
+  2. In order to push the code to the sonar cloud for analysis, please use the following command below
+  ```
    sonar-scanner
-   ´´´
-
-
+  ```

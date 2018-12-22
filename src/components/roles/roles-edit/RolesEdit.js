@@ -6,7 +6,6 @@ import icons from "glyphicons";
 
 
 class RolesEdit extends Component {
-	roleId;
 
 	constructor(props) {
 		super(props);
@@ -14,13 +13,39 @@ class RolesEdit extends Component {
 		this.state = {
 			roleId: this.props.roleId,
 			roleName: this.props.roleName,
-			roleIsActive: this.props.roleIsActive
+			roleIsActive: this.props.roleIsActive,
+			message: null
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
 
-	handleInputChange(event) {
+		this.modalRef = React.createRef();
+	};
+
+	saveRole() {
+		axios.put(baseUrlForTheBackend + '/role/' + this.state.roleId, {
+			"name": this.state.roleName,
+			"isActive": this.state.roleIsActive
+		})
+		.then(() => {
+			this.setState({message:null});
+			this.hide();
+			this.props.onDataSubmit();
+		})
+		.catch(() => {
+			this.setState({message:"Es ist ein Fehler aufgetreten"});
+			this.show();
+		});
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
+
+
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
@@ -28,29 +53,12 @@ class RolesEdit extends Component {
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event) {
-		const roleId = this.props.roleId;
-		axios.put(baseUrlForTheBackend + '/role/' + this.state.roleId, {
-			"name": this.state.roleName,
-			"isActive": this.state.roleIsActive
-		})
-			.then(function (response) {
-				console.log("then");
-				console.log(response);
-				$("#message" + roleId).empty().text("Erfolgreich gespeichert");
-				$("#editRoleNameDialog" + roleId).modal('hide');
-			})
-			.catch(function (error) {
-				console.log("catch");
-				console.log(error);
-				$("#message" + roleId).html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
-			});
-
-		console.log(this.state.roleName);
+	handleSubmit = (event) => {
 		event.preventDefault();
-	}
+		this.saveRole();
+	};
 
 
 	render() {
@@ -61,7 +69,7 @@ class RolesEdit extends Component {
 						data-target={'#editRoleNameDialog' + this.props.roleId}>
 					{icons.pencil}
 				</button>
-				<div className="modal fade" id={'editRoleNameDialog' + this.props.roleId} tabIndex="-1" role="dialog"
+				<div ref={this.modalRef} className="modal fade" id={'editRoleNameDialog' + this.props.roleId} tabIndex="-1" role="dialog"
 					 aria-labelledby="createShiftDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -100,7 +108,7 @@ class RolesEdit extends Component {
 											this.handleSubmit(e)
 										}}
 												className="btn btn-primary mr-1">
-											Speichern und schliessen
+											Speichern
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

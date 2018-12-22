@@ -11,14 +11,42 @@ class RolesCreate extends Component {
 
 		this.state = {
 			roleName: '',
-			roleIsActive: ''
+			roleIsActive: false,
+			message: null
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		this.validator = new SimpleReactValidator();
-	}
 
-	handleInputChange(event) {
+		this.modalRef = React.createRef();
+		this.validator = new SimpleReactValidator();
+	};
+
+	addRole() {
+		axios.post(baseUrlForTheBackend + '/roles', {
+			"name": this.state.roleName,
+			"isActive": this.state.roleIsActive
+		})
+			.then( () => {
+				this.setState({message:null});
+				this.hide();
+
+				this.props.onDataSubmit();
+
+			})
+			.catch(() => {
+				this.setState({message:"Es ist ein Fehler aufgetreten"});
+				this.show();
+			});
+
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
+
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
@@ -26,37 +54,12 @@ class RolesCreate extends Component {
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event, isSaveAndCloseEvent) {
-		if (!this.validator.allValid()) {
-			this.validator.showMessages();
-			// rerender to show messages for the first time
-			this.forceUpdate();
-		} else {
-			axios.post(baseUrlForTheBackend + '/roles', {
-				"name": this.state.roleName,
-				"isActive": this.state.roleIsActive
-			})
-				.then(function (response) {
-					console.log('then');
-					console.log(response);
-					$("#message").empty().html("Rolle wurde hinzugef&uuml;gt");
-					if (isSaveAndCloseEvent)
-						$('#createUserDialog').modal('hide');
-				})
-				.catch(function (error) {
-					console.log('catch');
-					console.log(error);
-					if (isSaveAndCloseEvent)
-						$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/>Ist der Name schon bereits vorhanden?");
-					else
-						$("#message").empty().html("Fehler:<br/>Ist der Name schon bereits vorhanden?");
-				});
-
-		}
+	handleSubmit = (event) => {
 		event.preventDefault();
-	}
+		this.addRole();
+	};
 
 	render() {
 		return (
@@ -64,7 +67,7 @@ class RolesCreate extends Component {
 				<button className="btn btn-primary" data-toggle="modal" data-target="#createUserDialog">
 					Rolle hinzufügen
 				</button>
-				<div className="modal fade" id="createUserDialog" tabIndex="-1" role="dialog"
+				<div ref={this.modalRef}  className="modal fade" id="createUserDialog" tabIndex="-1" role="dialog"
 					 aria-labelledby="createUserDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -95,23 +98,15 @@ class RolesCreate extends Component {
 										/>
 										<label htmlFor="isActive">Aktive Rolle</label>
 									</div>
-									<div id="message"/>
+									<div id="message">{this.state.message}</div>
 									< div className="modal-footer">
-										<button type="button"
-												onClick={(e) => {
-													this.handleSubmit(e, false)
-												}}
-
-												className="btn btn-primary">
-											Speichern
-										</button>
 										<button type="button" onClick={(e) => {
 											this.handleSubmit(e, true)
 										}}
 												className="btn btn-primary mr-1"
 												id="saveAndCloseButton"
 										>
-											Speichern und schliessen
+											Speichern
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

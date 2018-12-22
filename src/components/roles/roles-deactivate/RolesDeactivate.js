@@ -13,41 +13,52 @@ class RolesDeactivate extends Component {
 			roleData: [],
 			roleID: this.props.roleId,
 			roleName: this.props.roleName,
-			roleIsActive: this.props.roleIsActive
+			roleIsActive: this.props.roleIsActive,
+			message: null
 		};
 
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+		this.modalRef = React.createRef();
 	}
 
-	handleInputChange(event) {
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event, roleID) {
+	handleSubmit(event) {
+		event.preventDefault();
+		this.updateActivation()
+	};
+
+	updateActivation = () => {
 		axios.put(baseUrlForTheBackend + '/role/' + this.props.roleId,
 			{
 				"name": this.state.roleName,
 				"isActive": this.state.roleIsActive
 			})
-			.then(function (response) {
-				console.log("then");
-				console.log(response);
-				$("#message" + roleID).empty().text("Erfolgreich gespeichert");
-				$('#deactivateRoleNameDialog' + roleID).delay(5000).modal('hide');
+			.then(() => {
+				this.setState({message:null});
+				this.hide();
+
+				this.props.onDataSubmit()
 			})
-			.catch(function (error) {
-				console.log("catch");
-				console.log(error);
-				$("#message" + roleID).html("Fehler! Bitte versuchen Sie es später.");
+			.catch( () => {
+				this.setState({message:"Es ist ein Fehler aufgetreten"});
+				this.show();
 			});
-		event.preventDefault();
-	}
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
 
 	render() {
 		return (
@@ -56,7 +67,7 @@ class RolesDeactivate extends Component {
 						data-target={'#deactivateRoleNameDialog' + this.props.roleId}>
 					{this.props.title}
 				</button>
-				<div className="modal fade" id={'deactivateRoleNameDialog' + this.props.roleId} tabIndex="-1"
+				<div ref={this.modalRef} className="modal fade" id={'deactivateRoleNameDialog' + this.props.roleId} tabIndex="-1"
 					 role="dialog"
 					 aria-labelledby="deactivateRoleNameDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
@@ -92,7 +103,7 @@ class RolesDeactivate extends Component {
 											Die Rolle ist {this.state.roleIsActive === true ? "aktiv" : "deaktiviert"}
 										</label>
 									</div>
-									<div id={'message' + this.props.roleId}> </div>
+									<div  id={'message' + this.props.roleId}>{this.state.message}</div>
 									< div className="modal-footer">
 										<button
 											type="button" onClick=
@@ -101,7 +112,7 @@ class RolesDeactivate extends Component {
 											}}
 											className="btn btn-primary mr-1"
 										>
-											Speichern und schliessen
+											Speichern
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

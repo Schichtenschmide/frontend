@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
-import {baseUrlForTheBackend} from "../../../constants";
 import RolesEdit from "../roles-edit/RolesEdit";
 import RolesDeactivate from "../roles-deactivate/RolesDeactivate";
 import icons from "glyphicons";
@@ -8,30 +6,8 @@ import icons from "glyphicons";
 
 class RolesTable extends Component {
 
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			roleData: []
-		};
-	}
-
-	componentDidMount() {
-		axios
-			.get(baseUrlForTheBackend + '/roles')
-			.then(({data}) => {
-				this.setState({
-					roleData: data
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-	}
-
-	//
 	render() {
-		const listItems = this.state.roleData.map((el, index) =>
+		const listItems = this.props.roles.map((el, index) =>
 			<tr key={index}>
 				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
 				<td> {el.name} </td>
@@ -40,6 +16,7 @@ class RolesTable extends Component {
 						roleName={el.name}
 						roleId={el.stid}
 						roleIsActive={el.isActive}
+						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>
 				<td>
@@ -48,6 +25,7 @@ class RolesTable extends Component {
 						roleId={el.stid}
 						roleIsActive={el.isActive}
 						title={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
+						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>
 			</tr>

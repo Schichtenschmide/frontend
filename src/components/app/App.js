@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
-import RolesContainer from "../roles/roles-conatiner/RolesContainer";
+import RolesContainer from "../roles/roles-container/RolesContainer";
 import NavigationBar from "../navigation-bar/NavigationBar";
 import Footer from "../footer/Footer";
 import EmployeeContainer from "../employee/employee-container/EmployeeContainer";

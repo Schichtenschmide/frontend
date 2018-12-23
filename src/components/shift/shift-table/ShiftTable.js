@@ -1,36 +1,13 @@
 import React, {Component} from "react";
-import {baseUrlForTheBackend} from "../../../constants";
-import axios from 'axios';
 import ShiftEdit from "../shift-edit/ShiftEdit";
 import ShiftDeactivate from "../shift-deactivate/ShiftDeactivate";
 import icons from "glyphicons";
 
 
 class ShiftTable extends Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			shiftData: []
-		};
-	}
-
-	componentDidMount() {
-		axios
-			.get(baseUrlForTheBackend + '/shifts')
-			.then(({data}) => {
-				this.setState({
-					shiftData: data
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}
-
 
 	render() {
-		const listItems = this.state.shiftData.map((el, index) =>
+		const listItems = this.props.shifts.map((el, index) =>
 			<tr key={index}>
 				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
 				<td>{el.name}</td>
@@ -47,7 +24,7 @@ class ShiftTable extends Component {
 						endTime={el.endTime}
 						shorthand={el.shorthand}
 						employeeCount={el.employeeCount}
-						shiftIsActive={el.isActive}
+						isActive={el.isActive}
 						isMonday={el.isMonday}
 						isTuesday={el.isTuesday}
 						isWednesday={el.isWednesday}
@@ -56,6 +33,7 @@ class ShiftTable extends Component {
 						isSaturday={el.isSaturday}
 						isSunday={el.isSunday}
 						roleId={el.role.stid}
+						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>
 				<td>
@@ -66,7 +44,7 @@ class ShiftTable extends Component {
 						endTime={el.endTime}
 						shorthand={el.shorthand}
 						employeeCount={el.employeeCount}
-						shiftIsActive={el.isActive}
+						isActive={el.isActive}
 						isMonday={el.isMonday}
 						isTuesday={el.isTuesday}
 						isWednesday={el.isWednesday}
@@ -75,6 +53,7 @@ class ShiftTable extends Component {
 						isSaturday={el.isSaturday}
 						isSunday={el.isSunday}
 						roleId={el.role.stid}
+						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>
 			</tr>

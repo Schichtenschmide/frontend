@@ -16,7 +16,7 @@ class ShiftEdit extends Component {
 			endTime: this.props.endTime,
 			shorthand: this.props.shorthand,
 			employeeCount: this.props.employeeCount,
-			shiftIsActive: this.props.shiftIsActive,
+			isActive: this.props.isActive,
 			isMonday: this.props.isMonday,
 			isTuesday: this.props.isTuesday,
 			isWednesday: this.props.isWednesday,
@@ -24,49 +24,42 @@ class ShiftEdit extends Component {
 			isFriday: this.props.isFriday,
 			isSaturday: this.props.isSaturday,
 			isSunday: this.props.isSunday,
-			roleData: [],
-			roleId: this.props.roleId
+			roles: [],
+			roleId: this.props.roleId,
+			message: null
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
+
+		this.modalRef = React.createRef();
 	}
 
 	componentDidMount() {
+		this.fetchRoles()
+	};
+
+	fetchRoles() {
 		axios.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
-					roleData: data
+					roles: data,
+					message: null
 				});
-				console.log(data);
 			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
+			.catch(() => {
+				this.setState({message:"Rollen konnten nicht geladen werden."})
 			});
-	}
+	};
 
-	handleInputChange(event) {
-		const target = event.target;
-		const value = target.type === 'checkbox' ? target.checked : target.value;
-		const name = target.name;
-
-		this.setState({
-			[name]: value
-		});
-	}
-
-	handleSubmit(event) {
-		const id = this.props.shiftId;
+	saveShift() {
 		if (this.state.roleId === '') {
-			$("#message" + id).empty().html("Bitte wählen Sie eine Rolle");
+			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.put(baseUrlForTheBackend + '/shift/' + this.state.shiftId, {
+			axios.put(baseUrlForTheBackend + '/shift/' + this.props.shiftId, {
 				"name": this.state.name,
 				"startTime": this.state.startTime,
 				"endTime": this.state.endTime,
 				"shorthand": this.state.shorthand,
 				"employeeCount": this.state.employeeCount,
-				"isActive": this.state.shiftIsActive,
+				"isActive": this.state.isActive,
 				"isMonday": this.state.isMonday,
 				"isTuesday": this.state.isTuesday,
 				"isWednesday": this.state.isWednesday,
@@ -74,25 +67,48 @@ class ShiftEdit extends Component {
 				"isFriday": this.state.isFriday,
 				"isSaturday": this.state.isSaturday,
 				"isSunday": this.state.isSunday,
-				"roleId":this.state.roleId
+				"roleId": this.state.roleId
 			})
-				.then(function (response) {
-					console.log('then');
-					console.log(response);
-					$("#message" + id).empty();
-					$('#editShiftDialog' + id).modal('hide');
+				.then(() => {
+					this.setState({message: null});
+					this.hide();
+
+					this.props.onDataSubmit();
+
 				})
-				.catch(function (error) {
-					console.log('catch');
-					console.log(error);
-					$("#message" + id).empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?<br/>Ist der Name schon bereits vorhanden?");
+				.catch(() => {
+					this.setState({message: "Es ist ein Fehler aufgetreten"});
+					this.show();
 				});
 		}
+
+	};
+
+	handleInputChange = (event) => {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
+
+		this.setState({
+			[name]: value
+		});
+	};
+
+	handleSubmit = (event) => {
 		event.preventDefault();
-	}
+		this.saveShift();
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
 
 	render() {
-		const roleList = this.state.roleData.map((el, index) => (
+		const roleList = this.state.roles.map((el, index) => (
 			<option
 				key={index}
 				value={el.stid}
@@ -124,7 +140,7 @@ class ShiftEdit extends Component {
 					{icons.pencil}
 				</button>
 
-				<div className="modal fade" id={'editShiftDialog' + this.props.shiftId} tabIndex="-1" role="dialog"
+				<div ref={this.modalRef} className="modal fade" id={'editShiftDialog' + this.props.shiftId} tabIndex="-1" role="dialog"
 					 aria-labelledby="editShiftDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -283,8 +299,8 @@ class ShiftEdit extends Component {
 										<label className="form-check-label" id="shiftActive">
 											<input
 												htmlFor="shiftActive"
-												name={'shiftIsActive'}
-												defaultChecked={this.state.shiftIsActive}
+												name={'isActive'}
+												defaultChecked={this.state.isActive}
 												type="checkbox"
 												className="form-check-input"
 												onClick={this.handleInputChange}
@@ -292,7 +308,7 @@ class ShiftEdit extends Component {
 											aktive Schicht
 										</label>
 									</div>
-									<div id={'message' + this.props.shiftId}/>
+									<div id={'message' + this.props.shiftId}>{this.state.message}</div>
 									<div className="modal-footer">
 										<button type="button" onClick={(e) => {
 											this.handleSubmit(e)
@@ -300,7 +316,7 @@ class ShiftEdit extends Component {
 												className="btn btn-primary mr-1"
 												id="saveAndCloseButton"
 										>
-											Speichern und schliessen
+											Speichern
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

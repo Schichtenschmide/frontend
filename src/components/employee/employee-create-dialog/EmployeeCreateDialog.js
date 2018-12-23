@@ -14,29 +14,33 @@ class EmployeeCreateDialog extends Component {
 			lastName: '',
 			employmentRate: '',
 			isActive: 'false',
-			roleData: [],
-			roleId: ''
+			roles: [],
+			roleId: '',
+			message: null
 
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
+
+		this.modalRef = React.createRef();
+	};
 
 	componentDidMount() {
-		axios.get(baseUrlForTheBackend + '/roles')
-			.then(({data}) => {
-				this.setState({
-					roleData: data
-				});
-				console.log(data);
-			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
-			});
-	}
+		this.fetchRoles()
+	};
 
-	handleInputChange(event) {
+	fetchRoles() {
+		axios.get(baseUrlForTheBackend + '/roles')
+		.then(({data}) => {
+			this.setState({
+				roles: data,
+				message: null
+			});
+		})
+		.catch(() => {
+			this.setState({message:"Rollen konnten nicht geladen werden."})
+		});
+	};
+
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
@@ -44,13 +48,12 @@ class EmployeeCreateDialog extends Component {
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event, isSaveAndCloseEvent) {
+	addEmployee() {
 		if (this.state.roleId === '') {
-			$('#message').empty().html("Bittw wählen Sie eine Rolle");
+			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			console.log(baseUrlForTheBackend + '/employee');
 			axios.post(baseUrlForTheBackend + '/employee',
 				{
 					"firstName": this.state.firstName,
@@ -59,27 +62,33 @@ class EmployeeCreateDialog extends Component {
 					"isActive": this.state.isActive,
 					"roleId": this.state.roleId
 				})
-				.then(function (response) {
-					console.log('then');
-					console.log(response);
-					$("#message").empty().html("Mitarbeiter wurde hinzugef&uuml;gt");
-					if (isSaveAndCloseEvent)
-						$('#createEmployeeDialog').modal('hide');
+				.then(() => {
+					this.setState({message:null});
+					this.hide();
+					this.props.onDataSubmit();
 				})
-				.catch(function (error) {
-					console.log('catch');
-					console.log(error);
-					if (isSaveAndCloseEvent)
-						$("#message").empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 2 Buchstaben eingegeben?<br/>Ist der Mitarbeiter bereits vorhanden?");
-					else
-						$("#message").empty().html("Fehler: Haben Sie mindestens 2 Buchstaben eingegeben?<br/>Ist der Mitarbeiter bereits vorhanden?");
+				.catch(() => {
+					this.setState({message:"Es ist ein Fehler aufgetreten"});
+					this.show();
 				});
 		}
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
+
+	handleSubmit = (event) => {
 		event.preventDefault();
-	}
+		this.addEmployee();
+	};
 
 	render() {
-		const roleList = this.state.roleData.map((el, index) => (
+		const roleList = this.state.roles.map((el, index) => (
 			<option key={index} value={el.stid}>{el.name}</option>
 		));
 		let percent = [];
@@ -100,7 +109,7 @@ class EmployeeCreateDialog extends Component {
 				<button className="btn btn-primary" data-toggle="modal" data-target="#createEmployeeDialog">
 					Mitarbeiter hinzufügen
 				</button>
-				<div className="modal fade" id="createEmployeeDialog" tabIndex="-1" role="dialog"
+				<div ref={this.modalRef} className="modal fade" id="createEmployeeDialog" tabIndex="-1" role="dialog"
 					 aria-labelledby="createEmployeeDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -151,7 +160,7 @@ class EmployeeCreateDialog extends Component {
 											Aktiver Mitarbeiter
 										</label>
 									</div>
-									<div id={'message'}/>
+									<div id="message">{this.state.message}</div>
 									< div className="modal-footer">
 										<button type="button"
 												onClick={(e) => {
@@ -159,15 +168,6 @@ class EmployeeCreateDialog extends Component {
 												}}
 												className="btn btn-primary">
 											Speichern
-										</button>
-										<button type="button"
-												onClick={(e) => {
-													this.handleSubmit(e, true)
-												}}
-												className="btn btn-primary mr-1"
-												id="saveAndCloseButton"
-										>
-											Speichern und schliessen
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

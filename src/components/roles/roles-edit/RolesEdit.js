@@ -101,8 +101,8 @@ class RolesEdit extends Component {
 											className="form-control"
 										/>
 									</label>
-									<div className="alert alert-primary" role="alert"
-										 id={'message' + this.props.roleId}/>
+									<div role="alert"
+										 id={'message' + this.props.roleId}>{this.state.message}</div>
 									< div className="modal-footer">
 										<button type="button" onClick={(e) => {
 											this.handleSubmit(e)

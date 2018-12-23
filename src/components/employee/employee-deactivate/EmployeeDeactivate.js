@@ -9,13 +9,14 @@ class EmployeeDeactivate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			'isEmployeeActive': this.props.isEmployeeActive
+			'isActive': this.props.isActive,
+			message: null
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-	}
 
-	handleInputChange(event) {
+		this.modalRef = React.createRef();
+	};
+
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
@@ -23,29 +24,42 @@ class EmployeeDeactivate extends Component {
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event) {
-		const id = this.props.employeeId;
+	handleSubmit = (event) => {
+
+		event.preventDefault();
+		this.updateActivation();
+	};
+
+	updateActivation = () => {
 		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
 			{
 				'firstName': this.props.firstName,
 				'lastName': this.props.lastName,
-				'isActive': this.state.isEmployeeActive,
+				'isActive': this.state.isActive,
+				"employmentRate": this.props.employmentRate,
 				'roleId':this.props.roleId
 			})
-			.then(function (response) {
-				console.log(response);
-				$("#message" + id).empty().text("Erfolgreich gespeichert");
+			.then(() => {
+				this.setState({message:null});
+				this.hide();
 
-				$('#deactivateEmployeeDialog' + id).modal('hide');
+				this.props.onDataSubmit()
 			})
-			.catch(function (error) {
-				console.log(error);
-				$("#message" + id).html("Fehler! Bitte versuchen Sie es später.");
+			.catch( () => {
+				this.setState({message:"Es ist ein Fehler aufgetreten"});
+				this.show();
 			});
-		event.preventDefault();
-	}
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
 
 	render() {
 		return (
@@ -54,7 +68,7 @@ class EmployeeDeactivate extends Component {
 						data-target={'#deactivateEmployeeDialog' + this.props.employeeId}>
 					{this.props.buttonTitle}
 				</button>
-				<div className="modal fade" id={'deactivateEmployeeDialog' + this.props.employeeId} tabIndex="-1" role="dialog"
+				<div ref={this.modalRef} className="modal fade" id={'deactivateEmployeeDialog' + this.props.employeeId} tabIndex="-1" role="dialog"
 					 aria-labelledby="deleteEmployeeDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
 						<div className="modal-content">
@@ -70,13 +84,13 @@ class EmployeeDeactivate extends Component {
 									<label className="form-check-label" id="employeeActive">
 										<input
 											htmlFor="employeeActive"
-											name={'isEmployeeActive'}
-											defaultChecked={this.state.isEmployeeActive}
+											name={'isActive'}
+											defaultChecked={this.state.isActive}
 											type="checkbox"
 											className="form-check-input"
 											onClick={this.handleInputChange}
 										/>
-										Die Person ist {this.state.isEmployeeActive === true ? "aktiv" : "deaktiviert"}
+										Die Person ist {this.state.isActive === true ? "aktiv" : "deaktiviert"}
 									</label>
 								</div>
 								<div id={'message' + this.props.employeeId}/>

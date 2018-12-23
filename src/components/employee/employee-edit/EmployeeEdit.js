@@ -14,30 +14,54 @@ class EmployeeEdit extends Component {
 			lastName: this.props.lastName,
 			employmentRate: this.props.employmentRate,
 			isActive: this.props.isActive,
-			roleData: [],
-			roleId: this.props.roleId
+			roles: [],
+			roleId: this.props.roleId,
+			message: null
 
 		};
-		this.handleInputChange = this.handleInputChange.bind(this);
-		this.handleSubmit = this.handleSubmit.bind(this);
-		$('.message').empty();
-	}
+
+		this.modalRef = React.createRef();
+	};
 
 	componentDidMount() {
+		this.fetchRoles();
+	};
+
+	fetchRoles() {
 		axios.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
-					roleData: data
+					roles: data,
+					message: null
 				});
-				console.log(data);
 			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
+			.catch(() => {
+				this.setState({message:"Rollen konnten nicht geladen werden."})
 			});
-	}
+	};
 
-	handleInputChange(event) {
+	saveEmployee = () => {
+		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
+			{
+				'firstName': this.state.firstName,
+				'lastName': this.state.lastName,
+				'isActive': this.state.isActive,
+				"employmentRate": this.state.employmentRate,
+				'roleId':this.state.roleId
+			})
+			.then(() => {
+				this.setState({message:null});
+				this.hide();
+
+				this.props.onDataSubmit()
+			})
+			.catch( () => {
+				this.setState({message:"Es ist ein Fehler aufgetreten"});
+				this.show();
+			});
+	};
+
+	handleInputChange = (event) => {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
@@ -45,36 +69,23 @@ class EmployeeEdit extends Component {
 		this.setState({
 			[name]: value
 		});
-	}
+	};
 
-	handleSubmit(event) {
-		const id = this.props.employeeId;
-		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
-			{
-				"firstName": this.state.firstName,
-				"lastName": this.state.lastName,
-				"employmentRate": this.state.employmentRate,
-				"isActive": this.state.isActive,
-				"roleId": this.state.roleId
-			})
-			.then(function (response) {
-				console.log('then');
-				console.log(response);
-				$("#message" + id).empty().html("Mitarbeiter wurde ge&auml;ndert");
-				setTimeout(function () {
-					$('#editEmployeeDialog' + id).modal('hide');
-				}, 2000);
-			})
-			.catch(function (error) {
-				console.log('catch');
-				console.log(error);
-				$("#message" + id).empty().html("Fehler \"Speichern und schliessen\":<br/> Haben Sie mindestens 3 Buchstaben eingegeben?");
-			});
+	handleSubmit = (event) => {
 		event.preventDefault();
-	}
+		this.saveEmployee();
+	};
+
+	hide() {
+		$(this.modalRef.current).modal("hide");
+	};
+
+	show() {
+		$(this.modalRef.current).modal("show");
+	};
 
 	render() {
-		const roleList = this.state.roleData.map((el, index) => (
+		const roleList = this.state.roles.map((el, index) => (
 			<option
 				key={index}
 				value={el.stid}
@@ -101,7 +112,7 @@ class EmployeeEdit extends Component {
 						data-target={'#editEmployeeDialog' + this.props.employeeId}>
 					{icons.pencil}
 				</button>
-				<div className="modal fade" id={'editEmployeeDialog' + this.props.employeeId} tabIndex="-1"
+				<div ref={this.modalRef} className="modal fade" id={'editEmployeeDialog' + this.props.employeeId} tabIndex="-1"
 					 role="dialog"
 					 aria-labelledby="editEmployeeDialogTitle" aria-hidden="true">
 					<div className="modal-dialog modal-dialog-centered" role="document">
@@ -148,7 +159,7 @@ class EmployeeEdit extends Component {
 										   defaultChecked={this.state.isActive}
 										   value={this.state.isActive} onClick={this.handleInputChange}/>
 									<label htmlFor="isActive">Aktiver Mitarbeiter</label>
-									<div id={'message' + this.props.employeeId}/>
+									<div id={'message' + this.props.employeeId}>{this.state.message}</div>
 									< div className="modal-footer">
 										<button type="button" onClick={(e) => {
 											this.handleSubmit(e)
@@ -156,7 +167,7 @@ class EmployeeEdit extends Component {
 												className="btn btn-primary mr-1"
 												id="saveAndCloseButton"
 										>
-											Speichern und schliessen
+											Speichern
 										</button>
 										< button type="button" className="btn btn-secondary" data-dismiss="modal">
 											Abbrechen

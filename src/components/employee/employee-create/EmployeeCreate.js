@@ -4,7 +4,7 @@ import {baseUrlForTheBackend} from "../../../constants";
 import $ from "jquery";
 
 
-class EmployeeCreateDialog extends Component {
+class EmployeeCreate extends Component {
 
 	constructor(props) {
 		super(props);
@@ -183,4 +183,4 @@ class EmployeeCreateDialog extends Component {
 	}
 }
 
-export default EmployeeCreateDialog;
+export default EmployeeCreate;

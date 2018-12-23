@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import EmployeeCreateDialog from "../employee-create-dialog/EmployeeCreateDialog";
+import EmployeeCreateDialog from "../employee-create/EmployeeCreate";
 import EmployeeTable from "../employee-table/EmployeeTable";
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";

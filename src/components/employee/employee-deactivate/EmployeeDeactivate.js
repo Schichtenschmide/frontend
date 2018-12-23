@@ -9,7 +9,7 @@ class EmployeeDeactivate extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			'isActive': this.props.isActive,
+			isActive: this.props.isActive,
 			message: null
 		};
 
@@ -27,7 +27,6 @@ class EmployeeDeactivate extends Component {
 	};
 
 	handleSubmit = (event) => {
-
 		event.preventDefault();
 		this.updateActivation();
 	};

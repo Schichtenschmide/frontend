@@ -128,7 +128,7 @@ class EmployeeCreate extends Component {
 									<label htmlFor="lastName">Nachname</label>
 									<input name={'lastName'} type="text" id="lastName" value={this.state.lastName}
 										   onChange={this.handleInputChange} className="form-control"/>
-									<label htmlfor="employmentRate">Stellenprozenzsatz</label>
+									<label htmlFor="employmentRate">Stellenprozenzsatz</label>
 									<select className="form-control"
 											name={'employmentRate'}
 											id="employmentRate"

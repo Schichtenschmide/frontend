@@ -14,7 +14,6 @@ class ShiftEdit extends Component {
 			name: this.props.name,
 			startTime: this.props.startTime,
 			endTime: this.props.endTime,
-			shorthand: this.props.shorthand,
 			employeeCount: this.props.employeeCount,
 			isActive: this.props.isActive,
 			isMonday: this.props.isMonday,
@@ -37,7 +36,7 @@ class ShiftEdit extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles')
+		axios.get(baseUrlForTheBackend + '/roles2')
 			.then(({data}) => {
 				this.setState({
 					roles: data,
@@ -53,11 +52,10 @@ class ShiftEdit extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.put(baseUrlForTheBackend + '/shift/' + this.props.shiftId, {
+			axios.put(baseUrlForTheBackend + '/shifts2/' + this.props.shiftId, {
 				"name": this.state.name,
 				"startTime": this.state.startTime,
 				"endTime": this.state.endTime,
-				"shorthand": this.state.shorthand,
 				"employeeCount": this.state.employeeCount,
 				"isActive": this.state.isActive,
 				"isMonday": this.state.isMonday,
@@ -111,7 +109,7 @@ class ShiftEdit extends Component {
 		const roleList = this.state.roles.map((el, index) => (
 			<option
 				key={index}
-				value={el.stid}
+				value={el.identifier}
 			>
 				{el.name}
 			</option>

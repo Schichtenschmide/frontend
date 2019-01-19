@@ -40,11 +40,10 @@ class ShiftDeactivate extends Component {
 	};
 
 	updateActivation() {
-		axios.put(baseUrlForTheBackend + '/shift/' + this.props.shiftId, {
+		axios.put(baseUrlForTheBackend + '/shifts2/' + this.props.shiftId, {
 			"name": this.props.name,
 			"startTime": this.props.startTime,
 			"endTime": this.props.endTime,
-			"shorthand": this.props.shorthand,
 			"employeeCount": this.props.employeeCount,
 			"isActive": this.state.isActive,
 			"isMonday": this.props.isMonday,

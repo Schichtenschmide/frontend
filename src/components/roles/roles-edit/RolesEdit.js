@@ -21,7 +21,7 @@ class RolesEdit extends Component {
 	};
 
 	saveRole() {
-		axios.put(baseUrlForTheBackend + '/role/' + this.state.roleId, {
+		axios.put(baseUrlForTheBackend + '/roles2/' + this.state.roleId, {
 			"name": this.state.roleName,
 			"isActive": this.state.roleIsActive
 		})

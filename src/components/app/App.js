@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
+import Snow from 'let-it-snow';
 import RolesContainer from "../roles/roles-container/RolesContainer";
 import NavigationBar from "../navigation-bar/NavigationBar";
 import Footer from "../footer/Footer";
@@ -14,7 +15,8 @@ class App extends Component {
 		return (
 			<span>
 				<NavigationBar/>
-				<div id="content">
+				<div id="content" style={{ position:'relative'}}>
+            		<Snow />
 					<Switch>
 						<Route exact path='/' component={ShiftPlanContainer}/>
 						<Route path='/shiftplan' component={ShiftPlanContainer}/>

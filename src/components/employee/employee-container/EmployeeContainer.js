@@ -19,7 +19,7 @@ class EmployeeContainer extends Component {
 
 	fetchEmployees = () => {
 		axios
-			.get(baseUrlForTheBackend + '/employees')
+			.get(baseUrlForTheBackend + '/employees2')
 			.then(({data}) => {
 				this.setState({
 					employees: data

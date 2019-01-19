@@ -12,7 +12,6 @@ class ShiftCreate extends Component {
 			name: '',
 			startTime: '',
 			endTime: '',
-			shorthand: '',
 			employeeCount: '',
 			isActive: '',
 			isMonday: '',
@@ -35,11 +34,10 @@ class ShiftCreate extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.post(baseUrlForTheBackend + '/shift', {
+			axios.post(baseUrlForTheBackend + '/shifts2', {
 				name: this.state.name,
 				startTime: this.state.startTime,
 				endTime: this.state.endTime,
-				shorthand: this.state.shorthand,
 				employeeCount: this.state.employeeCount,
 				isActive: this.state.isActive,
 				isMonday: this.state.isMonday,
@@ -70,7 +68,7 @@ class ShiftCreate extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles')
+		axios.get(baseUrlForTheBackend + '/roles2')
 			.then(({data}) => {
 				this.setState({
 					roles: data,
@@ -173,14 +171,6 @@ class ShiftCreate extends Component {
 											</select>
 										</div>
 									</div>
-									<label htmlFor="shorthand">Shorthand</label>
-									<input name={'shorthand'}
-										   type="text"
-										   id="shorthand"
-										   value={this.state.shorthand}
-										   onChange={this.handleInputChange}
-										   className="form-control"
-									/>
 									<div className="form-check">
 										<input
 											name={'isMonday'}

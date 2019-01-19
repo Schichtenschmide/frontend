@@ -14,7 +14,7 @@ class RolesTable extends Component {
 				<td>
 					<RolesEdit
 						roleName={el.name}
-						roleId={el.stid}
+						roleId={el.identifier}
 						roleIsActive={el.isActive}
 						onDataSubmit={this.props.onDataSubmit}
 					/>
@@ -22,7 +22,7 @@ class RolesTable extends Component {
 				<td>
 					<RolesDeactivate
 						roleName={el.name}
-						roleId={el.stid}
+						roleId={el.identifier}
 						roleIsActive={el.isActive}
 						title={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
 						onDataSubmit={this.props.onDataSubmit}

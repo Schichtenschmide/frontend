@@ -28,7 +28,7 @@ class EmployeeEdit extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles')
+		axios.get(baseUrlForTheBackend + '/roles2')
 			.then(({data}) => {
 				this.setState({
 					roles: data,
@@ -41,7 +41,7 @@ class EmployeeEdit extends Component {
 	};
 
 	saveEmployee = () => {
-		axios.put(baseUrlForTheBackend + '/employee/' + this.props.employeeId,
+		axios.put(baseUrlForTheBackend + '/employees2/' + this.props.employeeId,
 			{
 				'firstName': this.state.firstName,
 				'lastName': this.state.lastName,
@@ -88,7 +88,7 @@ class EmployeeEdit extends Component {
 		const roleList = this.state.roles.map((el, index) => (
 			<option
 				key={index}
-				value={el.stid}
+				value={el.identifier}
 			>
 				{el.name}
 			</option>

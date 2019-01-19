@@ -18,11 +18,10 @@ class ShiftTable extends Component {
 				<td>{el.isMonday ? 'Mo ' : ''}{el.isTuesday ? 'Di ' : ''}{el.isWednesday ? 'Mi ' : ''} {el.isThursday ? 'Do ' : ''} {el.isFriday ? 'Fr ' : ''}{el.isSaturday ? 'Sa ' : ''}{el.isSunday ? 'So ' : ''}</td>
 				<td>
 					<ShiftEdit
-						shiftId={el.stid}
+						shiftId={el.identifier}
 						name={el.name}
 						startTime={el.startTime}
 						endTime={el.endTime}
-						shorthand={el.shorthand}
 						employeeCount={el.employeeCount}
 						isActive={el.isActive}
 						isMonday={el.isMonday}
@@ -32,17 +31,16 @@ class ShiftTable extends Component {
 						isFriday={el.isFriday}
 						isSaturday={el.isSaturday}
 						isSunday={el.isSunday}
-						roleId={el.role.stid}
+						roleId={el.role.identifier}
 						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>
 				<td>
 					<ShiftDeactivate
-						shiftId={el.stid}
+						shiftId={el.identifier}
 						name={el.name}
 						startTime={el.startTime}
 						endTime={el.endTime}
-						shorthand={el.shorthand}
 						employeeCount={el.employeeCount}
 						isActive={el.isActive}
 						isMonday={el.isMonday}
@@ -52,7 +50,7 @@ class ShiftTable extends Component {
 						isFriday={el.isFriday}
 						isSaturday={el.isSaturday}
 						isSunday={el.isSunday}
-						roleId={el.role.stid}
+						roleId={el.role.identifier}
 						onDataSubmit={this.props.onDataSubmit}
 					/>
 				</td>

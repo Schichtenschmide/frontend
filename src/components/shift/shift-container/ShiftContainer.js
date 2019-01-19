@@ -18,7 +18,7 @@ class ShiftContainer extends Component{
 
 	fetchShifts = () => {
 		axios
-			.get(baseUrlForTheBackend + '/shifts')
+			.get(baseUrlForTheBackend + '/shifts2')
 			.then(({data}) => {
 				this.setState({
 					shifts: data

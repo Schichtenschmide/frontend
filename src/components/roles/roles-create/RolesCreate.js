@@ -20,7 +20,7 @@ class RolesCreate extends Component {
 	};
 
 	addRole() {
-		axios.post(baseUrlForTheBackend + '/roles', {
+		axios.post(baseUrlForTheBackend + '/roles2', {
 			"name": this.state.roleName,
 			"isActive": this.state.roleIsActive
 		})

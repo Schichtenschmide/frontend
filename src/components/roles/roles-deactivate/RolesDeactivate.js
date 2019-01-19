@@ -35,7 +35,7 @@ class RolesDeactivate extends Component {
 	};
 
 	updateActivation = () => {
-		axios.put(baseUrlForTheBackend + '/role/' + this.props.roleId,
+		axios.put(baseUrlForTheBackend + '/roles2/' + this.props.roleId,
 			{
 				"name": this.state.roleName,
 				"isActive": this.state.roleIsActive

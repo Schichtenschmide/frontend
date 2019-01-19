@@ -54,7 +54,7 @@ class EmployeeCreate extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.post(baseUrlForTheBackend + '/employee',
+			axios.post(baseUrlForTheBackend + '/employees2',
 				{
 					"firstName": this.state.firstName,
 					"lastName": this.state.lastName,

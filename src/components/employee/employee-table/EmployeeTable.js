@@ -17,12 +17,12 @@ class EmployeeTable extends Component {
 				<td>
 					<span id="edit" className="glyphicon glyphicon-pencil">
 						<EmployeeEdit
-							employeeId={el.stid}
+							employeeId={el.identifier}
 							firstName={el.firstName}
 							lastName={el.lastName}
 							employmentRate={el.employmentRate}
 							isActive={el.isActive}
-							roleId={el.role.stid}
+							roleId={el.role.identifier}
 							onDataSubmit={this.props.onDataSubmit}
 						/>
 					</span>
@@ -35,7 +35,7 @@ class EmployeeTable extends Component {
 											employmentRate={el.employmentRate}
 											isActive={el.isActive}
 											buttonTitle={el.isActive === true ? ('deaktivieren') : ('aktivieren')}
-											roleId={el.role.stid}
+											roleId={el.role.identifier}
 											onDataSubmit={this.props.onDataSubmit}
 						/>
 					</span>

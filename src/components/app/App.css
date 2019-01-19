@@ -1,13 +1,15 @@
 html{
-    background-color: #e3f2fd;
+    background-color: darkorange;
+   /* background-color: #e3f2fd;*/
 }
 body{
     position: relative;
     max-width: 1000px;
     margin: 0 auto;
     padding: 10px;
-    background-color: white;
+    /*background-color: white;*/
     border-radius: 5px;
+    background-color: chocolate;
 }
 
 #content{
@@ -15,4 +17,5 @@ body{
     padding: 10px;
     min-width: 200px;
     min-height: 400px;
+    background-color: chocolate;
 }

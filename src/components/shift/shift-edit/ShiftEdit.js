@@ -179,14 +179,6 @@ class ShiftEdit extends Component {
 											</select>
 										</div>
 									</div>
-									<label htmlFor="shorthand">Shorthand</label>
-									<input name={'shorthand'}
-										   type="text"
-										   id="shorthand"
-										   value={this.state.shorthand}
-										   onChange={this.handleInputChange}
-										   className="form-control"
-									/>
 									<div className="form-check">
 										<input
 											name={'isMonday'}
@@ -288,7 +280,7 @@ class ShiftEdit extends Component {
 												name={'roleId'}
 												id="role"
 												onChange={this.handleInputChange}
-												value={this.props.roleId}
+												value={this.state.roleId}
 										>
 											{roleList}
 										</select>

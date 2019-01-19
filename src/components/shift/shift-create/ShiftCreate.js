@@ -104,7 +104,7 @@ class ShiftCreate extends Component {
 
 	render() {
 		const roleList = this.state.roles.map((el, index) => (
-			<option key={index} value={el.stid}>{el.name}</option>
+			<option key={index} value={el.identifier}>{el.name}</option>
 		));
 
 		let time = [];

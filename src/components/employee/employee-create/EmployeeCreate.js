@@ -28,7 +28,7 @@ class EmployeeCreate extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles')
+		axios.get(baseUrlForTheBackend + '/roles2')
 		.then(({data}) => {
 			this.setState({
 				roles: data,
@@ -56,11 +56,11 @@ class EmployeeCreate extends Component {
 		} else {
 			axios.post(baseUrlForTheBackend + '/employees2',
 				{
-					"firstName": this.state.firstName,
-					"lastName": this.state.lastName,
-					"employmentRate": this.state.employmentRate,
-					"isActive": this.state.isActive,
-					"roleId": this.state.roleId
+					firstName: this.state.firstName,
+					lastName: this.state.lastName,
+					employmentRate: this.state.employmentRate,
+					isActive: this.state.isActive,
+					roleId: this.state.roleId
 				})
 				.then(() => {
 					this.setState({message:null});
@@ -89,7 +89,7 @@ class EmployeeCreate extends Component {
 
 	render() {
 		const roleList = this.state.roles.map((el, index) => (
-			<option key={index} value={el.stid}>{el.name}</option>
+			<option key={index} value={el.identifier}>{el.name}</option>
 		));
 		let percent = [];
 		for (let i = 20; i <= 100; i += 20) {
@@ -145,7 +145,7 @@ class EmployeeCreate extends Component {
 												id="role"
 												onChange={this.handleInputChange}
 										>
-											<option/>
+											<option value={''}/>
 											{roleList}
 										</select>
 									</div>

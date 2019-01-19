@@ -149,7 +149,7 @@ class EmployeeEdit extends Component {
 												name={'roleId'}
 												id="role"
 												onChange={this.handleInputChange}
-												value={this.props.roleId}
+												value={this.state.roleId}
 										>
 											<option/>
 											{roleList}

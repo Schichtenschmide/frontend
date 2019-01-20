@@ -19,7 +19,7 @@ class RolesContainer extends Component {
 
 	fetchRoles = () => {
 		axios
-			.get(baseUrlForTheBackend + '/roles2')
+			.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
 					roles: data

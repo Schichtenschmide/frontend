@@ -39,7 +39,7 @@ class ShiftEdit extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles2')
+		axios.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
 					roles: data,
@@ -55,7 +55,7 @@ class ShiftEdit extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.put(baseUrlForTheBackend + '/shifts2/' + this.props.shiftId, {
+			axios.put(baseUrlForTheBackend + '/shifts/' + this.props.shiftId, {
 				"name": this.state.name,
 				"startTime": this.state.startTime,
 				"endTime": this.state.endTime,

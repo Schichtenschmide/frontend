@@ -36,7 +36,7 @@ class ShiftCreate extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.post(baseUrlForTheBackend + '/shifts2', {
+			axios.post(baseUrlForTheBackend + '/shifts', {
 				name: this.state.name,
 				startTime: this.state.startTime,
 				endTime: this.state.endTime,
@@ -70,7 +70,7 @@ class ShiftCreate extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles2')
+		axios.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
 					roles: data,

@@ -31,7 +31,7 @@ class EmployeeDeactivate extends Component {
 		this.updateActivation();
 	};
 	updateActivation() {
-		axios.put(baseUrlForTheBackend + '/employees2/' + this.props.employeeId,
+		axios.put(baseUrlForTheBackend + '/employees/' + this.props.employeeId,
             {
 				"firstName": this.props.firstName,
 				"lastName": this.props.lastName,

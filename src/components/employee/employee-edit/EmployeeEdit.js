@@ -31,7 +31,7 @@ class EmployeeEdit extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles2')
+		axios.get(baseUrlForTheBackend + '/roles')
 			.then(({data}) => {
 				this.setState({
 					roles: data,
@@ -44,7 +44,7 @@ class EmployeeEdit extends Component {
 	};
 
 	saveEmployee = () => {
-		axios.put(baseUrlForTheBackend + '/employees2/' + this.props.employeeId,
+		axios.put(baseUrlForTheBackend + '/employees/' + this.props.employeeId,
 			{
 				'firstName': this.state.firstName,
 				'lastName': this.state.lastName,

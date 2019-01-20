@@ -30,7 +30,7 @@ class EmployeeCreate extends Component {
 	};
 
 	fetchRoles() {
-		axios.get(baseUrlForTheBackend + '/roles2')
+		axios.get(baseUrlForTheBackend + '/roles')
 		.then(({data}) => {
 			this.setState({
 				roles: data,
@@ -56,7 +56,7 @@ class EmployeeCreate extends Component {
 		if (this.state.roleId === '') {
 			this.setState({message:"Bitte wählen Sie eine Rolle"})
 		} else {
-			axios.post(baseUrlForTheBackend + '/employees2',
+			axios.post(baseUrlForTheBackend + '/employees',
 				{
 					firstName: this.state.firstName,
 					lastName: this.state.lastName,

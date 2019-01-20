@@ -24,7 +24,7 @@ class RolesEdit extends Component {
 	};
 
 	saveRole() {
-		axios.put(baseUrlForTheBackend + '/roles2/' + this.state.roleId, {
+		axios.put(baseUrlForTheBackend + '/roles/' + this.state.roleId, {
 			"name": this.state.roleName,
 			"isActive": this.state.roleIsActive
 		})
@@ -89,16 +89,7 @@ class RolesEdit extends Component {
 							</div>
 							<div className="modal-body">
 								<form onSubmit={this.handleSubmit}>
-									<label>
-										alter Rollenname<br/>
-										<input
-											value={this.props.roleName}
-											type="text"
-											className="form-control"
-											readOnly
-										/>
-									</label>
-									<br/>
+
 									<label>
 										neuer Rollenname<br/>
 										<input

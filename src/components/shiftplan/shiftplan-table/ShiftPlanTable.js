@@ -19,7 +19,7 @@ class ShiftPlanTable extends Component {
 
 	fetchShifts = () => {
 		axios
-			.get(baseUrlForTheBackend + '/shifts2')
+			.get(baseUrlForTheBackend + '/shifts')
 			.then(({data}) => {
 				this.setState({
 					shifts: data

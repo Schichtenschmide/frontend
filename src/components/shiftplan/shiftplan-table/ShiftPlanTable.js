@@ -63,6 +63,11 @@ class ShiftPlanTable extends Component {
 				<td>{el.name}</td>
 				<td>{el.startTime < 10 ? '0' + el.startTime + ':00' : el.startTime + ':00'}</td>
 				<td>{el.endTime < 10 ? '0' + el.endTime + ':00' : el.endTime + ':00'}</td>
+                {this.state.dailyschedules.map((el1, index1) => (
+                    <tr key={index}>
+                        <td>{el1.isSunday ? 'true':'false'}</td>
+                    </tr>
+                ))}
 				<td> {el.isMonday ? icons.checkHeavy : icons.crossHeavy} </td>
 				<td> {el.isTuesday ? icons.checkHeavy : icons.crossHeavy} </td>
 				<td> {el.isWednesday ? icons.checkHeavy : icons.crossHeavy} </td>

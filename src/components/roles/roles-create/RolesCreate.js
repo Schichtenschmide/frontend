@@ -3,6 +3,7 @@ import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
 import SimpleReactValidator from 'simple-react-validator';
+import validationSettings from '../../../validationSettings';
 
 
 class RolesCreate extends Component {
@@ -16,7 +17,7 @@ class RolesCreate extends Component {
 		};
 
 		this.modalRef = React.createRef();
-		this.validator = new SimpleReactValidator();
+		this.validator = new SimpleReactValidator(validationSettings);
 	};
 
 	addRole() {
@@ -57,8 +58,15 @@ class RolesCreate extends Component {
 	};
 
 	handleSubmit = (event) => {
+
+
+		if (this.validator.allValid()) {
+			this.addRole();
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 		event.preventDefault();
-		this.addRole();
 	};
 
 	render() {
@@ -78,7 +86,7 @@ class RolesCreate extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<form>
+								<form onSubmit={this.handleSubmit}>
 									<label>
 										Rollenname<br/>
 										<input
@@ -88,7 +96,7 @@ class RolesCreate extends Component {
 											onChange={this.handleInputChange}
 										/>
 									</label>
-									{this.validator.message('text', this.state.roleName, 'required|min:3|max:30')}
+									{this.validator.message('name', this.state.roleName, 'required')}
 									<div className="form-check">
 										<input name={'roleIsActive'}
 											   type="checkbox"
@@ -100,17 +108,12 @@ class RolesCreate extends Component {
 									</div>
 									<div id="message">{this.state.message}</div>
 									< div className="modal-footer">
-										<button type="button" onClick={(e) => {
-											this.handleSubmit(e, true)
-										}}
+										<input type="submit"
 												className="btn btn-primary mr-1"
 												id="saveAndCloseButton"
-										>
-											Speichern
-										</button>
-										< button type="button" className="btn btn-secondary" data-dismiss="modal">
-											Abbrechen
-										</button>
+											    value="Speichern"
+										/>
+										<input type="button" className="btn btn-secondary" data-dismiss="modal" value="Abbrechen" />
 									</div>
 								</form>
 							</div>

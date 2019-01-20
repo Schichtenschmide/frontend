@@ -3,6 +3,8 @@ import {baseUrlForTheBackend} from "../../../constants";
 import axios from "axios";
 import $ from "jquery";
 import icons from "glyphicons";
+import SimpleReactValidator from 'simple-react-validator';
+import validationSettings from '../../../validationSettings';
 
 
 class ShiftEdit extends Component {
@@ -29,6 +31,7 @@ class ShiftEdit extends Component {
 		};
 
 		this.modalRef = React.createRef();
+		this.validator = new SimpleReactValidator(validationSettings);
 	}
 
 	componentDidMount() {
@@ -93,8 +96,13 @@ class ShiftEdit extends Component {
 	};
 
 	handleSubmit = (event) => {
+		if (this.validator.allValid()) {
+			this.saveShift();
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 		event.preventDefault();
-		this.saveShift();
 	};
 
 	hide() {
@@ -149,10 +157,11 @@ class ShiftEdit extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<form>
+								<form onSubmit={this.handleSubmit}>
 									<label htmlFor="name">Name</label>
 									<input name={'name'} type="text" id="name" value={this.state.name}
 										   onChange={this.handleInputChange} className="form-control"/>
+									{this.validator.message('name', this.state.name, 'required')}
 									<div className="form-row">
 										<div className="col">
 											<label htmlFor="startTime">Von</label>
@@ -165,6 +174,7 @@ class ShiftEdit extends Component {
 												<option/>
 												{timeList}
 											</select>
+											{this.validator.message('startTime', this.state.startTime, 'required')}
 										</div>
 										<div className="col">
 											<label htmlFor="startTime">Bis</label>
@@ -177,6 +187,7 @@ class ShiftEdit extends Component {
 												<option/>
 												{timeList}
 											</select>
+											{this.validator.message('endTime', this.state.endTime, 'required')}
 										</div>
 									</div>
 									<div className="form-check">
@@ -274,6 +285,7 @@ class ShiftEdit extends Component {
 									<input name={'employeeCount'} type="number" id="employeeCount"
 										   value={this.state.employeeCount} onChange={this.handleInputChange}
 										   className="form-control"/>
+									{this.validator.message('employeeCount', this.state.employeeCount, 'required')}
 									<div className="form-group">
 										<label htmlFor="role">Rolle</label>
 										<select className="form-control"
@@ -284,6 +296,7 @@ class ShiftEdit extends Component {
 										>
 											{roleList}
 										</select>
+										{this.validator.message('roleId', this.state.roleId, 'required')}
 									</div>
 									<div className="form-check">
 										<label className="form-check-label" id="shiftActive">
@@ -300,17 +313,12 @@ class ShiftEdit extends Component {
 									</div>
 									<div id={'message' + this.props.shiftId}>{this.state.message}</div>
 									<div className="modal-footer">
-										<button type="button" onClick={(e) => {
-											this.handleSubmit(e)
-										}}
-												className="btn btn-primary mr-1"
-												id="saveAndCloseButton"
-										>
-											Speichern
-										</button>
-										< button type="button" className="btn btn-secondary" data-dismiss="modal">
-											Abbrechen
-										</button>
+										<input type="submit"
+											   className="btn btn-primary mr-1"
+											   id="saveAndCloseButton"
+											   value="Speichern"
+										/>
+										<input type="button" className="btn btn-secondary" data-dismiss="modal" value="Abbrechen" />
 									</div>
 								</form>
 							</div>

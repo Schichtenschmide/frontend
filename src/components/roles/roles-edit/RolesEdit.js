@@ -3,6 +3,8 @@ import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from 'jquery';
 import icons from "glyphicons";
+import SimpleReactValidator from 'simple-react-validator';
+import validationSettings from '../../../validationSettings';
 
 
 class RolesEdit extends Component {
@@ -18,6 +20,7 @@ class RolesEdit extends Component {
 		};
 
 		this.modalRef = React.createRef();
+		this.validator = new SimpleReactValidator(validationSettings);
 	};
 
 	saveRole() {
@@ -56,8 +59,13 @@ class RolesEdit extends Component {
 	};
 
 	handleSubmit = (event) => {
+		if (this.validator.allValid()) {
+			this.saveRole();
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 		event.preventDefault();
-		this.saveRole();
 	};
 
 
@@ -80,7 +88,7 @@ class RolesEdit extends Component {
 								</button>
 							</div>
 							<div className="modal-body">
-								<form>
+								<form onSubmit={this.handleSubmit}>
 									<label>
 										alter Rollenname<br/>
 										<input
@@ -101,18 +109,16 @@ class RolesEdit extends Component {
 											className="form-control"
 										/>
 									</label>
+									{this.validator.message('name', this.state.roleName, 'required')}
 									<div role="alert"
 										 id={'message' + this.props.roleId}>{this.state.message}</div>
-									< div className="modal-footer">
-										<button type="button" onClick={(e) => {
-											this.handleSubmit(e)
-										}}
-												className="btn btn-primary mr-1">
-											Speichern
-										</button>
-										< button type="button" className="btn btn-secondary" data-dismiss="modal">
-											Abbrechen
-										</button>
+									<div className="modal-footer">
+										<input type="submit"
+											   className="btn btn-primary mr-1"
+											   id="saveAndCloseButton"
+											   value="Speichern"
+										/>
+										<input type="button" className="btn btn-secondary" data-dismiss="modal" value="Abbrechen" />
 									</div>
 								</form>
 							</div>

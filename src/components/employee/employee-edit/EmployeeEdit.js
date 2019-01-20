@@ -3,6 +3,8 @@ import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
 import $ from "jquery";
 import icons from "glyphicons";
+import SimpleReactValidator from 'simple-react-validator';
+import validationSettings from '../../../validationSettings';
 
 class EmployeeEdit extends Component {
 
@@ -21,6 +23,7 @@ class EmployeeEdit extends Component {
 		};
 
 		this.modalRef = React.createRef();
+		this.validator = new SimpleReactValidator(validationSettings);
 	};
 
 	componentDidMount() {
@@ -72,8 +75,14 @@ class EmployeeEdit extends Component {
 	};
 
 	handleSubmit = (event) => {
+		if (this.validator.allValid()) {
+			this.saveEmployee();
+		} else {
+			this.validator.showMessages();
+			this.forceUpdate();
+		}
 		event.preventDefault();
-		this.saveEmployee();
+
 	};
 
 	hide() {
@@ -129,11 +138,12 @@ class EmployeeEdit extends Component {
 									<input name={'firstName'} type="text" id="firstName"
 										   value={this.state.firstName} onChange={this.handleInputChange}
 										   className="form-control"/>
+									{this.validator.message('firstName', this.state.firstName, 'required')}
 									<label htmlFor="lastName">Nachname</label>
 									<input name={'lastName'} type="text" id="lastName" value={this.state.lastName}
 										   onChange={this.handleInputChange} className="form-control"/>
 
-
+									{this.validator.message('lastName', this.state.lastName, 'required')}
 									<label htmlFor="employmentRate">Stellenprozenzsatz</label>
 									<select className="form-control"
 											name={'employmentRate'}
@@ -143,6 +153,7 @@ class EmployeeEdit extends Component {
 									>
 										{percentList}
 									</select>
+									{this.validator.message('employmentRate', this.state.employmentRate, 'required')}
 									<div className="form-group">
 										<label htmlFor="role">Rolle</label>
 										<select className="form-control"
@@ -154,6 +165,7 @@ class EmployeeEdit extends Component {
 											<option/>
 											{roleList}
 										</select>
+										{this.validator.message('roleId', this.state.roleId, 'required')}
 									</div>
 									<input name={'isActive'} type="checkbox" id="isActive"
 										   defaultChecked={this.state.isActive}
@@ -161,17 +173,12 @@ class EmployeeEdit extends Component {
 									<label htmlFor="isActive">Aktiver Mitarbeiter</label>
 									<div id={'message' + this.props.employeeId}>{this.state.message}</div>
 									< div className="modal-footer">
-										<button type="button" onClick={(e) => {
-											this.handleSubmit(e)
-										}}
-												className="btn btn-primary mr-1"
-												id="saveAndCloseButton"
-										>
-											Speichern
-										</button>
-										< button type="button" className="btn btn-secondary" data-dismiss="modal">
-											Abbrechen
-										</button>
+										<input type="submit"
+											   className="btn btn-primary mr-1"
+											   id="saveAndCloseButton"
+											   value="Speichern"
+										/>
+										<input type="button" className="btn btn-secondary" data-dismiss="modal" value="Abbrechen" />
 									</div>
 								</form>
 							</div>

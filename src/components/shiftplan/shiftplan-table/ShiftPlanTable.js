@@ -74,15 +74,6 @@ class ShiftPlanTable extends Component {
 		));
 
 
-		<table className="table table-bordered">
-			<th colSpan="3">Inner Table</th>
-			<tr>
-				<td>This is row one, column 1</td>
-				<td>This is row one, column 2</td>
-				<td>This is row one, column 3</td>
-			</tr>
-		</table>
-
 		const schedules = this.state.shifts.map((el, index) => (
 			<tr key={index}>
 				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>

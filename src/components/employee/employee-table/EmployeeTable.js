@@ -29,7 +29,7 @@ class EmployeeTable extends Component {
 				</td>
 				<td>
 					<span id="delete" className="glyphicon glyphicon-trash">
-						<EmployeeDeactivate employeeId={el.stid}
+						<EmployeeDeactivate employeeId={el.identifier}
 											firstName={el.firstName}
 											lastName={el.lastName}
 											employmentRate={el.employmentRate}

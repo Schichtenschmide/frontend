@@ -11,47 +11,91 @@ class ShiftPlanTable extends Component {
 		super(props);
 
 		this.state = {
-			shiftPlanData: []
+			shifts: [],
+			dailyschedules: []
+
 		};
 	}
 
-	componentDidMount() {
+	fetchShifts = () => {
 		axios
-			.get(baseUrlForTheBackend + '/shiftplans')
+			.get(baseUrlForTheBackend + '/shifts2')
 			.then(({data}) => {
 				this.setState({
-					shiftPlanData: data
+					shifts: data
 				});
 			})
 			.catch((err) => {
-				console.log(err);
 			})
+	};
+
+
+	fetchDailyschedules = () => {
+
+		var date = new Date();
+
+		console.log(date);
+
+
+		axios
+			.get(baseUrlForTheBackend + '/dailyschedulesofweek/' + date)
+			.then(({data}) => {
+				this.setState({
+					dailyschedules: data
+				});
+			})
+			.catch((err) => {
+			})
+	};
+
+
+
+	componentDidMount() {
+		this.fetchShifts();
+		this.fetchDailyschedules();
 	}
 
 	render() {
 		//TODO add a "Tab" that filters the diffrent roles. or Dropdown?
-		const listItems = this.state.shiftPlanData.map((el, index) => (
+		const listItems = this.state.shifts.map((el, index) => (
 			<tr key={index}>
 				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
-				<td>{el.shift.name}</td>
-				<td>{el.shift.startTime < 10 ? '0' + el.shift.startTime + ':00' : el.shift.startTime + ':00'}</td>
-				<td>{el.shift.endTime < 10 ? '0' + el.shift.endTime + ':00' : el.shift.endTime + ':00'}</td>
-				<td>{el.weekNumber}</td>
-				<td>{el.year}</td>
-				<td>
-					<ShiftPlanAddEmployee
-						shiftName={el.shift.name}
-						shiftStartTime={el.shift.startTime}
-						shiftEndTime={el.shift.endTime}
-						shiftPlanId={el.stid}
-						shiftId={el.shiftId}
-						weekNumber={el.weekNumber}
-						year={el.year}
-						isActive={el.isActive}
-						employees={el.employees}
-					/>
-				</td>
-				<td><ShiftPlanEdit/></td>
+				<td>{el.name}</td>
+				<td>{el.startTime < 10 ? '0' + el.startTime + ':00' : el.startTime + ':00'}</td>
+				<td>{el.endTime < 10 ? '0' + el.endTime + ':00' : el.endTime + ':00'}</td>
+				<td> {el.isMonday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isTuesday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isWednesday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isThursday.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isFriday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isSaturday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isSunday ? icons.checkHeavy : icons.crossHeavy} </td>
+			</tr>
+		));
+
+
+		<table className="table table-bordered">
+			<th colSpan="3">Inner Table</th>
+			<tr>
+				<td>This is row one, column 1</td>
+				<td>This is row one, column 2</td>
+				<td>This is row one, column 3</td>
+			</tr>
+		</table>
+
+		const schedules = this.state.shifts.map((el, index) => (
+			<tr key={index}>
+				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td>{el.name}</td>
+				<td>{el.startTime < 10 ? '0' + el.startTime + ':00' : el.startTime + ':00'}</td>
+				<td>{el.endTime < 10 ? '0' + el.endTime + ':00' : el.endTime + ':00'}</td>
+				<td> {el.isMonday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isTuesday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isWednesday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isThursday.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isFriday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isSaturday ? icons.checkHeavy : icons.crossHeavy} </td>
+				<td> {el.isSunday ? icons.checkHeavy : icons.crossHeavy} </td>
 			</tr>
 		));
 
@@ -68,10 +112,13 @@ class ShiftPlanTable extends Component {
 					<th scope="col">Name</th>
 					<th scope="col">Start</th>
 					<th scope="col">Ende</th>
-					<th scope="col">Wochennummer</th>
-					<th scope="col">Jahr</th>
-					<th scope="col"/>
-					<th scope="col"/>
+					<th scope="col">Mo.</th>
+					<th scope="col">Di.</th>
+					<th scope="col">Mi.</th>
+					<th scope="col">Do.</th>
+					<th scope="col">Fr.</th>
+					<th scope="col">Sa.</th>
+					<th scope="col">So.</th>
 				</tr>
 				</thead>
 				<tbody>

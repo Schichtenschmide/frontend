@@ -10,10 +10,12 @@ class ShiftPlanContainer extends Component {
 			<div>
 				<h1>Wochenplan</h1>
 				<ShiftPlanTable/>
-				<ShiftPlanCreate/>
+
 			</div>
 		);
 	}
 }
+
+/*<ShiftPlanCreate/>*/
 
 export default ShiftPlanContainer;

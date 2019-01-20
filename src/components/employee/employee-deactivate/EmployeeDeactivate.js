@@ -30,15 +30,14 @@ class EmployeeDeactivate extends Component {
 		event.preventDefault();
 		this.updateActivation();
 	};
-
-	updateActivation = () => {
+	updateActivation() {
 		axios.put(baseUrlForTheBackend + '/employees2/' + this.props.employeeId,
-			{
-				'firstName': this.props.firstName,
-				'lastName': this.props.lastName,
-				'isActive': this.state.isActive,
+            {
+				"firstName": this.props.firstName,
+				"lastName": this.props.lastName,
+				"isActive": this.state.isActive,
 				"employmentRate": this.props.employmentRate,
-				'roleId':this.props.roleId
+				"roleId":this.props.roleId
 			})
 			.then(() => {
 				this.setState({message:null});

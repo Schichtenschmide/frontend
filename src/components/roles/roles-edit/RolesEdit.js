@@ -100,7 +100,7 @@ class RolesEdit extends Component {
 											className="form-control"
 										/>
 									</label>
-									{this.validator.message('name', this.state.roleName, 'required')}
+									{this.validator.message('roleName', this.state.roleName, 'required')}
 									<div role="alert"
 										 id={'message' + this.props.roleId}>{this.state.message}</div>
 									<div className="modal-footer">

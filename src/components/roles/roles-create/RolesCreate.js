@@ -96,7 +96,7 @@ class RolesCreate extends Component {
 											onChange={this.handleInputChange}
 										/>
 									</label>
-									{this.validator.message('name', this.state.roleName, 'required')}
+									{this.validator.message('roleName', this.state.roleName, 'required')}
 									<div className="form-check">
 										<input name={'roleIsActive'}
 											   type="checkbox"

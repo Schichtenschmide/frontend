@@ -6,7 +6,7 @@ import Footer from "../footer/Footer";
 import EmployeeContainer from "../employee/employee-container/EmployeeContainer";
 import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
-import ShiftPlanContainer from "../shiftplan/shiftplan-container/shiftPlanContainer";
+import ShiftPlanContainer from "../shiftplan/shiftplan-container/DailyScheduleContainer";
 import ShiftContainer from "../shift/shift-container/ShiftContainer";
 
 class App extends Component {

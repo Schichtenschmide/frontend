@@ -11,7 +11,12 @@ body{
     border-radius: 5px;
     background-color: chocolate;
 }
-
+.inactive{
+    background-color: grey;
+}
+.active{
+    background-color: lightyellow;
+}
 #content{
     margin: 0 auto;
     padding: 10px;

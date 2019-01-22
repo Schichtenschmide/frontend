@@ -2,9 +2,10 @@ import React, {Component} from "react";
 import $ from "jquery";
 import axios from "axios";
 import {baseUrlForTheBackend} from "../../../constants";
+import icons from "glyphicons";
 
 
-class ShiftPlanCreate extends Component {
+class DailyScheduleCreate extends Component {
 
 	constructor(props) {
 		super(props);
@@ -76,6 +77,8 @@ class ShiftPlanCreate extends Component {
 	}
 
 	render() {
+		var now = new Date();
+		var d = now.setDv
 		const shiftList = this.state.shiftData.map((el, index) => (
 			<option key={index} value={el.stid}>{el.name}</option>
 		));
@@ -83,7 +86,7 @@ class ShiftPlanCreate extends Component {
 			<div>
 				<button className="btn btn-secondary" data-toggle="modal"
 						data-target={'#createShiftPlan'}>
-					Schichtenplan erstellen
+                    {icons.plus}
 				</button>
 				<div className="modal fade" id={'createShiftPlan'} tabIndex="-1" role="dialog"
 					 aria-labelledby="editShiftDialogTitle" aria-hidden="true">
@@ -151,62 +154,5 @@ class ShiftPlanCreate extends Component {
 	}
 }
 
-export default ShiftPlanCreate;
+export default DailyScheduleCreate;
 
-/**
- *
- import React, {Component} from "react";
- import {baseUrlForTheBackend} from "../../../constants";
- import axios from "axios";
- import $ from "jquery";
-
-
- class ShiftDeactivate extends Component {
-
-
-	handleSubmit(event) {
-		const id = this.props.shiftId;
-			axios.put(baseUrlForTheBackend + '/role/' + this.props.roleId + '/shift/' + this.props.shiftId, {
-				"name": this.props.name,
-				"startTime": this.props.startTime,
-				"endTime": this.props.endTime,
-				"shorthand": this.props.shorthand,
-				"employeeCount": this.props.employeeCount,
-				"isActive": this.state.isActive,
-				"isMonday": this.props.isMonday,
-				"isTuesday": this.props.isTuesday,
-				"isWednesday": this.props.isWednesday,
-				"isThursday": this.props.isThursday,
-				"isFriday": this.props.isFriday,
-				"isSaturday": this.props.isSaturday,
-				"isSunday": this.props.isSunday
-			})
-				.then(function (response) {
-					console.log('then');
-					console.log(response);
-					$("#message" + id).empty().html("&Auml;nderung wurde gespeichert");
-					$('#deactivateShiftDialog' + id).modal('hide');
-				})
-				.catch(function (error) {
-					console.log('catch');
-					console.log(error);
-					$("#message" + id).empty().html("Fehler: Speichern und schliessen");
-				});
-
-		event.preventDefault();
-	}
-
-	render() {
-		return (
-			<div>
-
-
-				</div>
-			</div>
-		);
-	}
-}
-
- export default ShiftDeactivate;
-
- */

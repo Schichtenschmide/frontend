@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import {baseUrlForTheBackend} from "../../../constants";
-import ShiftPlanAddEmployee from "../shiftplan-addEmployee/shiftplanAddEmployee";
 import icons from 'glyphicons';
 import DailyScheduleManageEmployees from "../shiftplan-edit/DailyScheduleEdit";
 import DailyScheduleCreate from "../shiftplan-create/DailyScheduleCreate";
@@ -14,15 +13,28 @@ class DailyScheduleTable extends Component {
         /*return date for creation*/
         return date;
     }
-
+    addDailySchedule(date, shift) {
+        axios.post(baseUrlForTheBackend + '/dailyschedules', {
+            isActive:true,
+            date:date,
+            shiftId:shift.identifier
+        })
+    }
+    fetchEmployees = (employees) =>{
+        employees.map((el, index) => (
+            <div>{el.firstName}<br/></div>
+        ));
+    }
     forLoopMonday = (shift) => {
         var cell = false;
         const onDataSubmit = this.props.onDataSubmit;
         this.props.dailyschedules.map(function(el, index){
             var ifTrue="yes";
             if ((el.shift.identifier==shift.identifier)&&(shift.isMonday && el.isMonday)) {
-                    var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                                className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -30,14 +42,20 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}</td>
                 }
+            }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isMonday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                date={this.getDay(new Date(),1)}/></span></td>;
+                date={this.getDay(new Date(),1)}
+                shift={shift}
+                onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -48,8 +66,10 @@ class DailyScheduleTable extends Component {
 
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier) &&(shift.isTuesday && el.isTuesday)) {
-                    var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -57,14 +77,20 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}</td>
                 }
+            }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isTuesday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),2)}/></span></td>;
+                    date={this.getDay(new Date(),2)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -75,8 +101,10 @@ class DailyScheduleTable extends Component {
 
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier)&&(shift.isWednesday && el.isWednesday)) {
-                    var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -84,14 +112,20 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}a</td>
+                }
                 }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isWednesday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),3)}/></span></td>;
+                    date={this.getDay(new Date(),3)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -99,12 +133,12 @@ class DailyScheduleTable extends Component {
     forLoopThursday = (shift) => {
         var cell = false;
         const onDataSubmit = this.props.onDataSubmit;
-
-
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier)&&(shift.isThursday && el.isThursday)) {
-                    var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -112,14 +146,20 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}a</td>
                 }
+            }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isThursday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),4)}/></span></td>;
+                    date={this.getDay(new Date(),4)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -131,24 +171,31 @@ class DailyScheduleTable extends Component {
 
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier)&&(shift.isFriday && el.isFriday)) {
-                var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit"
-                                                                        className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
-                    dailyscheduleId={el.identifier}
-                    employees={el.employees}
-                    shift={el.shift}
-                    onDataSubmit={onDataSubmit}
-                    date={el.date}
-                    isActive={el.isActive}
-                /></span></td>;
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                        dailyscheduleId={el.identifier}
+                        employees={el.employees}
+                        shift={el.shift}
+                        onDataSubmit={onDataSubmit}
+                        date={el.date}
+                        isActive={el.isActive}
+                    /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}a</td>
+                }
             }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isFriday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),5)}/></span></td>;
+                    date={this.getDay(new Date(),5)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -160,8 +207,10 @@ class DailyScheduleTable extends Component {
 
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier)&&(shift.isSaturday && el.isSaturday)) {
-                    var selectedRowMonday = true;
-                cell =  <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -169,14 +218,20 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}a</td>
                 }
+            }
         });
         if (cell == false) {
-            if(shift.isActive) {
+            if(shift.isActive && shift.isSaturday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),6)}/></span></td>;
+                    date={this.getDay(new Date(),6)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
@@ -184,12 +239,12 @@ class DailyScheduleTable extends Component {
     forLoopSunday = (shift) => {
     var cell = false;
         const onDataSubmit = this.props.onDataSubmit;
-
-
         this.props.dailyschedules.map(function(el, index){
             if ((el.shift.identifier==shift.identifier)&&(shift.isSunday && el.isSunday)) {
-                var selectedRowMonday = true;
-                cell = <td>'+ ifTrue +'{el.employees[0].firstName}<span id="edit" className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
+                if (shift.isActive) {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}<span id="edit"
+                                                               className="glyphicon glyphicon-pencil"><DailyScheduleManageEmployees
                         dailyscheduleId={el.identifier}
                         employees={el.employees}
                         shift={el.shift}
@@ -197,30 +252,26 @@ class DailyScheduleTable extends Component {
                         date={el.date}
                         isActive={el.isActive}
                     /></span></td>;
+                } else {
+                    cell = <td>{el.employees.map((el, index) => (
+                        <div>{el.firstName}<br/></div>))}a</td>
                 }
+            }
         });
-        if (!cell) {
-            if(shift.isActive) {
+        if (cell == false) {
+            if(shift.isActive && shift.isSaturday) {
                 cell = <td><span id="create" className="glyphicon glyphicon-plus"><DailyScheduleCreate
-                    date={this.getDay(new Date(),7)}/></span></td>;
+                    date={this.getDay(new Date(),7)}
+                    shift={shift}
+                    onAddClick={this.addDailySchedule}/></span></td>;
             } else {
-                cell = <td>false </td>;
+                cell = <td>nA</td>;
             }
         }
         return cell;
     }
 
-
-    /*<td> {el.isMonday&&el.isMonday==true ? icons.checkHeavy : icons.crossHeavy} </td>
-                <td> {el.isTuesday ? icons.checkHeavy : icons.crossHeavy} </td>
-                <td> {el.isWednesday ? icons.checkHeavy : icons.crossHeavy} </td>
-                <td> {el.isThursday.isActive ? icons.checkHeavy  : icons.crossHeavy} </td>
-                <td> {el.isFriday ? icons.checkHeavy : icons.crossHeavy} </td>
-                <td> {el.isSaturday ? icons.checkHeavy : icons.crossHeavy} </td>
-                <td> {el.isSunday ? icons.checkHeavy : icons.crossHeavy} </td>*/
 	render() {
-
-        //TODO add a "Tab" that filters the diffrent roles. or Dropdown?
 		const listItems = this.props.shifts.map((el, index) => (
 
 			<tr key={index}>

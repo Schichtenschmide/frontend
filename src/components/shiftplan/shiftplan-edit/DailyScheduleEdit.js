@@ -102,9 +102,10 @@ class DailyScheduleEdit extends Component{
     show() {
         $(this.modalRef.current).modal("show");
     };
+
     render() {
-        const employeeList = this.state.employeeData.map((el, index) => (
-            <option key={index} value={el.identifier}>{el.firstName} {el.lastName}</option>
+        const employeeList = this.state.employeeData.map((el, index) => (<option key={index}
+            value={el.identifier}>{el.firstName} {el.lastName}</option>
         ));
         const employeeListSelectedForTheShiftPlan = this.state.employees.map((el, index) => (
             <div key={index} value={el.identifier}>{el.firstName} {el.lastName}</div>
@@ -136,6 +137,10 @@ class DailyScheduleEdit extends Component{
                                             <tr>
                                                 <td>Name</td>
                                                 <td>{this.props.shift.name}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Rolle</td>
+                                                <td>{this.props.shift.role.name}</td>
                                             </tr>
                                             <tr>
                                                 <td>Zeit</td>

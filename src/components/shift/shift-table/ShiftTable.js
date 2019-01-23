@@ -11,8 +11,8 @@ class ShiftTable extends Component {
 			<tr key={index}>
 				<td> {el.isActive ? icons.checkHeavy : icons.crossHeavy} </td>
 				<td>{el.name}</td>
-				<td>{el.startTime < 10 ? '0'+el.startTime+':00': el.startTime+':00' }</td>
-				<td>{el.endTime < 10 ? '0'+el.endTime+':00': el.endTime+':00' }</td> 
+				<td>{el.startTime < 10 ? '0' + el.startTime + ':00' : el.startTime + ':00'}</td>
+				<td>{el.endTime < 10 ? '0' + el.endTime + ':00' : el.endTime + ':00'}</td>
 				<td>{el.employeeCount}</td>
 				<td>{el.role.name}</td>
 				<td>{el.isMonday ? 'Mo ' : ''}{el.isTuesday ? 'Di ' : ''}{el.isWednesday ? 'Mi ' : ''} {el.isThursday ? 'Do ' : ''} {el.isFriday ? 'Fr ' : ''}{el.isSaturday ? 'Sa ' : ''}{el.isSunday ? 'So ' : ''}</td>
@@ -69,7 +69,6 @@ class ShiftTable extends Component {
 				<th scope="col">Wochentage</th>
 				<th scope="col"/>
 				<th scope="col"/>
-
 			</tr>
 			</thead>
 			<tbody>

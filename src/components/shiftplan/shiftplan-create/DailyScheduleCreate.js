@@ -1,7 +1,4 @@
 import React, {Component} from "react";
-import $ from "jquery";
-import axios from "axios";
-import {baseUrlForTheBackend} from "../../../constants";
 import icons from "glyphicons";
 
 
@@ -14,15 +11,15 @@ class DailyScheduleCreate extends Component {
 			shift: this.props.shift,
 			date: this.props.date
 		};
-		console.log("date"+this.props.date);
+		console.log("date" + this.props.date);
 	}
 
-    /*onClick={()=>{this.props.onAddClick(this.state.date, this.state.shift)}}*/
+	/*onClick={()=>{this.props.onAddClick(this.state.date, this.state.shift)}}*/
 	render() {
 		return (
 			<div>
 				<button className="btn btn-primary">
-                    {icons.plus}
+					{icons.plus}
 				</button>
 			</div>
 		);

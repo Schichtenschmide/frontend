@@ -29,7 +29,7 @@ class DailyScheduleTable extends Component {
         var cell = false;
         const onDataSubmit = this.props.onDataSubmit;
         this.props.dailyschedules.map(function(el, index){
-            var ifTrue="yes";
+
             if ((el.shift.identifier==shift.identifier)&&(shift.isMonday && el.isMonday)) {
                 if (shift.isActive) {
                     cell = <td>{el.employees.map((el, index) => (

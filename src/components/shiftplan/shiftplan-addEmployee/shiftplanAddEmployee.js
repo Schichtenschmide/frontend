@@ -146,17 +146,17 @@ class ShiftPlanAddEmployee extends Component {
 										</table>
 									</div>
 
-                                    <div className="form-group">
-                                        <label htmlFor="employee">Mitarbeiter</label>
-                                        <select className="form-control"
-                                                name={'employeeId'}
-                                                id="employee"
-                                                onChange={this.handleInputChange}
-                                        >
-                                            <option/>
-                                            {employeeList}
-                                        </select>
-                                    </div>
+									<div className="form-group">
+										<label htmlFor="employee">Mitarbeiter</label>
+										<select className="form-control"
+												name={'employeeId'}
+												id="employee"
+												onChange={this.handleInputChange}
+										>
+											<option/>
+											{employeeList}
+										</select>
+									</div>
 									{employeeListSelectedForTheShiftPlan}
 									<div id={'addEmployeeToShiftPlanMessage' + this.props.shiftPlanId}/>
 									<div className="modal-footer">

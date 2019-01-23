@@ -166,7 +166,7 @@ class DailyScheduleEdit extends Component{
                                         </select>
                                     </div>
                                     {employeeListSelectedForTheShiftPlan}
-                                    <div id={'addEmployeeToShiftPlanMessage' + this.props.shiftPlanId}/>
+                                    <div id={'addEmployeeToShiftPlanMessage' + this.props.dailyscheduleId}/>
                                     <div className="modal-footer">
                                         <input type="submit"
                                                 className="btn btn-primary mr-1"

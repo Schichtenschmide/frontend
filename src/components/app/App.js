@@ -8,6 +8,7 @@ import Route from "react-router-dom/es/Route";
 import Switch from "react-router-dom/es/Switch";
 import ShiftPlanContainer from "../shiftplan/shiftplan-container/DailyScheduleContainer";
 import ShiftContainer from "../shift/shift-container/ShiftContainer";
+import Snow from 'let-it-snow';
 
 class App extends Component {
 	render() {
@@ -15,6 +16,7 @@ class App extends Component {
 			<span>
 				<NavigationBar/>
 				<div id="content" style={{ position:'relative'}}>
+					<Snow />
 					<Switch>
 						<Route exact path='/' component={ShiftPlanContainer}/>
 						<Route path='/shiftplan' component={ShiftPlanContainer}/>

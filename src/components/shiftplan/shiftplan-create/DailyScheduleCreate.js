@@ -14,6 +14,7 @@ class DailyScheduleCreate extends Component {
 			shift: this.props.shift,
 			date: this.props.date
 		};
+		console.log("date"+this.props.date);
 	}
 
     /*onClick={()=>{this.props.onAddClick(this.state.date, this.state.shift)}}*/

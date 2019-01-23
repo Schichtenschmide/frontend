@@ -13,6 +13,7 @@
     "enzyme-adapter-react-16": "^1.7.1",
     "glyphicons": "^0.2.0",
     "jquery": "^3.3.1",
+    "let-it-snow": "^1.1.6",
     "popper.js": "^1.14.5",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",

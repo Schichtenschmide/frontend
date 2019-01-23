@@ -300,7 +300,7 @@ class DailyScheduleTable extends Component {
 				<thead className="thead-light">
 				<tr>
 					<th scope="col">Aktiv</th>
-					<th scope="col">Name</th>
+					<th scope="col">Schicht</th>
 					<th scope="col">Start</th>
 					<th scope="col">Ende</th>
 					<th scope="col">Mo.</th>
